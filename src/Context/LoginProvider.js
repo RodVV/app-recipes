@@ -8,11 +8,7 @@ export default function LoginProvider({ children }) {
 
   const handleInput = ({ target }) => {
     const { name } = target;
-    if (name === 'email') {
-      setEmail(target.value);
-    } else {
-      setPassword(target.value);
-    }
+    return (name === 'email' ? setEmail(target.value) : setPassword(target.value));
   };
 
   const handleLogin = () => {

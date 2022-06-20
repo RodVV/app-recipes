@@ -17,6 +17,7 @@ function Login() {
           onChange={ handleInput }
           data-testid="email-input"
           name="email"
+          value={ email }
         />
         <input
           type="password"
@@ -24,6 +25,7 @@ function Login() {
           onChange={ handleInput }
           data-testid="password-input"
           name="password"
+          value={ password }
         />
         <Link to="/foods">
           <button
