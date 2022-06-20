@@ -15,10 +15,17 @@ export default function LoginProvider({ children }) {
     }
   };
 
+  const handleLogin = () => {
+    localStorage.setItem('mealsToken', 1);
+    localStorage.setItem('cocktailsToken', 1);
+    localStorage.setItem('user', JSON.stringify({ email }));
+  };
+
   const contextValue = {
     handleInput,
     email,
     password,
+    handleLogin,
   };
 
   return (

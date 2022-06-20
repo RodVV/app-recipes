@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import Context from '../Context/Context';
 
 const PASS_LENGTH = 6;
@@ -24,15 +25,16 @@ function Login() {
           data-testid="password-input"
           name="password"
         />
-        <button
-          type="button"
-          data-testid="login-submit-btn"
-          onClick={ handleLogin }
-          disabled={ password.length <= PASS_LENGTH || !verifyEmail.test(email) }
-          // https://pt.stackoverflow.com/questions/1386/express%C3%A3o-regular-para-valida%C3%A7%C3%A3o-de-e-mail
-        >
-          Login
-        </button>
+        <Link to="/foods">
+          <button
+            type="button"
+            data-testid="login-submit-btn"
+            onClick={ handleLogin }
+            disabled={ password.length <= PASS_LENGTH || !verifyEmail.test(email) }
+          >
+            Login
+          </button>
+        </Link>
       </form>
     </div>
 
