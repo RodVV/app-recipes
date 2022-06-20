@@ -8,17 +8,20 @@ export default function LoginProvider({ children }) {
 
   const handleInput = ({ target }) => {
     const { name } = target;
-    if (name === 'email') {
-      setEmail(target.value);
-    } else {
-      setPassword(target.value);
-    }
+    return (name === 'email' ? setEmail(target.value) : setPassword(target.value));
+  };
+
+  const handleLogin = () => {
+    localStorage.setItem('mealsToken', 1);
+    localStorage.setItem('cocktailsToken', 1);
+    localStorage.setItem('user', JSON.stringify({ email }));
   };
 
   const contextValue = {
     handleInput,
     email,
     password,
+    handleLogin,
   };
 
   return (
