@@ -11,22 +11,30 @@ function Login() {
   return (
     <div>
       <form>
-        <input
-          type="text"
-          placeholder="Email"
-          onChange={ handleInput }
-          data-testid="email-input"
-          name="email"
-          value={ email }
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          onChange={ handleInput }
-          data-testid="password-input"
-          name="password"
-          value={ password }
-        />
+        <label htmlFor="email-input">
+          E-mail
+          <input
+            type="text"
+            id="email-input"
+            placeholder="Email"
+            onChange={ handleInput }
+            data-testid="email-input"
+            name="email"
+            value={ email }
+          />
+        </label>
+        <label htmlFor="password-input">
+          Password
+          <input
+            type="password"
+            id="password-input"
+            placeholder="Password"
+            onChange={ handleInput }
+            data-testid="password-input"
+            name="password"
+            value={ password }
+          />
+        </label>
         <Link to="/foods">
           <button
             type="button"
