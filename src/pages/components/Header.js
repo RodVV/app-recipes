@@ -1,33 +1,64 @@
 import React from 'react';
+import { useLocation, Link } from 'react-router-dom';
 import profileIcon from '../../images/profileIcon.svg';
 import searchIcon from '../../images/searchIcon.svg';
 
 function Header() {
+  const pathname = useLocation();
+
+  const showSearchBar = () => {
+    if (pathname.pathname === '/foods'
+    || pathname.pathname === '/explore/foods/nationalities'
+    || pathname.pathname === '/drinks') {
+      return (<input
+        data-testid="search-top-btn"
+        type="image"
+        src={ searchIcon }
+        alt="Search icon"
+      />);
+    }
+  };
+
+  const paragraph = (<p data-testid="page-title">Explore Ingredients</p>);
+
+  const createTitle = () => {
+    switch (pathname.pathname) {
+    case '/foods': return <p data-testid="page-title">Foods</p>;
+    case '/drinks': return <p data-testid="page-title">Drinks</p>;
+    case '/explore': return <p data-testid="page-title">Explore</p>;
+    case '/explore/foods': return <p data-testid="page-title">Explore Foods</p>;
+    case '/explore/drinks': return <p data-testid="page-title">Explore Drinks</p>;
+    case '/explore/foods/ingredients': return paragraph;
+    case '/explore/drinks/ingredients': return paragraph;
+    case '/explore/foods/nationalities': return (
+      <p data-testid="page-title">Explore Nationalities</p>);
+    case '/done-recipes': return <p data-testid="page-title">Done Recipes</p>;
+    case '/favorite-recipes': return <p data-testid="page-title">Favorite Recipes</p>;
+    case '/profile': return <p data-testid="page-title">Profile</p>;
+    default:
+      return null;
+    }
+  };
+
   return (
     <div
-      style={ { display: 'flex',
+      style={ {
+        display: 'flex',
         width: '100vh',
         justifyContent: 'space-between',
         alignItems: 'center',
       } }
     >
-      <input
-        data-testid="profile-top-btn"
-        type="image"
-        src={ profileIcon }
-        alt="Profile icon"
-      />
-      <p
-        data-testid="page-title"
-      >
-        Foods
-      </p>
-      <input
-        data-testid="search-top-btn"
-        type="image"
-        src={ searchIcon }
-        alt="Search icon"
-      />
+      <Link to="/profile">
+        <input
+          data-testid="profile-top-btn"
+          type="image"
+          src={ profileIcon }
+          alt="Profile icon"
+        />
+      </Link>
+      {createTitle()}
+      {showSearchBar()}
     </div>
   );
 }
