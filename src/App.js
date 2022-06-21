@@ -11,6 +11,8 @@ import ExploreFoodsByIngredients from './pages/ExploreFoodsByIngredients';
 import ExploreDrinksByIngredients from './pages/ExploreDrinksByIngredients';
 import ExploreFoodsByNationality from './pages/ExploreFoodsByNationality';
 import Profile from './pages/Profile';
+import DoneRecipes from './pages/DoneRecipes';
+import FavoriteRecipes from './pages/FavoriteRecipes';
 import NotFound from './pages/NotFound';
 
 function App() {
@@ -39,6 +41,8 @@ function App() {
           component={ ExploreFoodsByNationality }
         />
         <Route path="/profile" component={ Profile } />
+        <Route path="/done-recipes" component={ DoneRecipes } />
+        <Route path="/favorite-recipes" component={ FavoriteRecipes } />
         <Route route="*" component={ NotFound } />
       </Switch>
     </LoginProvider>

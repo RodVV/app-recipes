@@ -2,13 +2,8 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './helpers/renderWithRouter';
+import { validEmail, validPassword, invalidEmail, invalidPassword } from './helpers';
 import App from '../App';
-
-const validEmail = 'teste@trybe.com';
-const validPassword = '1234567';
-
-const invalidEmail = 'oi';
-const invalidPassword = '123';
 
 describe('Testa a página de Login da aplicação', () => {
   it('Teste 1- Testa se tem os inputs de email e senha, e o botão de fazer login', () => {
