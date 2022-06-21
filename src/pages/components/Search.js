@@ -10,8 +10,8 @@ function Search() {
           id="search-input"
           name="search"
           placeholder="Search"
-          value={ search }
-          onChange={ handleSearch }
+          // value={ search }
+          // onChange={ handleSearch }
         />
       </label>
       <label htmlFor="ingredient-radio">
@@ -21,7 +21,7 @@ function Search() {
           data-testid="ingredient-search-radio"
           name="ingredient"
           id="ingredient-radio"
-          onChange={ handleRadio }
+          // onChange={ handleRadio }
         />
       </label>
       <label htmlFor="name-radio">
@@ -31,7 +31,7 @@ function Search() {
           data-testid="name-search-radio"
           name="name"
           id="name-radio"
-          onChange={ handleRadio }
+          // onChange={ handleRadio }
         />
       </label>
       <label htmlFor="letter-radio">
@@ -41,7 +41,7 @@ function Search() {
           data-testid="first-letter-search-radio"
           name="first-letter"
           id="letter-radio"
-          onChange={ handleRadio }
+          // onChange={ handleRadio }
         />
       </label>
       <button
