@@ -2,13 +2,13 @@ import React from 'react';
 import Footer from './components/Footer';
 import '../App.css';
 
-function Foods() {
+function ExploreDrinks() {
   return (
     <div>
-      <p>Foods Page</p>
+      <p>ExploreDrinks Page</p>
       <Footer />
     </div>
   );
 }
 
-export default Foods;
+export default ExploreDrinks;
