@@ -2,10 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Footer from './components/Footer';
 import '../App.css';
+import Header from './components/Header';
 
 function ExploreDrinks() {
   return (
     <div>
+      <Header />
       <p>ExploreDrinks Page</p>
       <Link to="/explore/drinks/ingredients">
         <button
