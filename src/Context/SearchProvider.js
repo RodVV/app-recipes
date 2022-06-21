@@ -4,11 +4,6 @@ import Context from './Context';
 
 export default function SearchProvider({ children }) {
   const [data, setData] = useState([]);
-  // const [showBar, setShowBar] = useState(false);
-
-  // const handleShowBar = () => {
-  //   setShowBar(!showBar);
-  // };
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -25,8 +20,6 @@ export default function SearchProvider({ children }) {
 
   const contextValue = {
     data,
-    // handleShowBar,
-    // showBar,
   };
 
   return (

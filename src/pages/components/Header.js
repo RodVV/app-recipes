@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
-// import Context from '../../Context/Context';
 import profileIcon from '../../images/profileIcon.svg';
 import searchIcon from '../../images/searchIcon.svg';
+import Search from './Search';
 
 function Header() {
-  const [showBar, setShowBar] = useState(false);
-
   const pathname = useLocation();
+  const [showBar, setShowBar] = useState(false);
 
   const showSearchBar = () => {
     if (pathname.pathname === '/foods'
@@ -63,6 +62,7 @@ function Header() {
       </Link>
       {createTitle()}
       {showSearchBar()}
+      {showBar && <Search />}
     </div>
   );
 }
