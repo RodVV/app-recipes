@@ -1,9 +1,7 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Context from '../Context/Context';
-
-const PASS_LENGTH = 6;
-const verifyEmail = /\S+@\S+\.\S+/;
+import { SIX, verifyEmail } from './helpers/index';
 
 function Login() {
   const { handleInput, handleLogin, email, password } = useContext(Context);
@@ -15,39 +13,38 @@ function Login() {
           E-mail
           <input
             type="text"
-            id="email-input"
-            placeholder="Email"
-            onChange={ handleInput }
             data-testid="email-input"
+            id="email-input"
             name="email"
+            placeholder="Email"
             value={ email }
+            onChange={ handleInput }
           />
         </label>
         <label htmlFor="password-input">
           Password
           <input
             type="password"
-            id="password-input"
-            placeholder="Password"
-            onChange={ handleInput }
             data-testid="password-input"
+            id="password-input"
             name="password"
+            placeholder="Password"
             value={ password }
+            onChange={ handleInput }
           />
         </label>
         <Link to="/foods">
           <button
             type="button"
             data-testid="login-submit-btn"
+            disabled={ password.length <= SIX || !verifyEmail.test(email) }
             onClick={ handleLogin }
-            disabled={ password.length <= PASS_LENGTH || !verifyEmail.test(email) }
           >
             Login
           </button>
         </Link>
       </form>
     </div>
-
   );
 }
 

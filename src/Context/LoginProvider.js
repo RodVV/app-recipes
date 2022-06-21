@@ -6,10 +6,9 @@ export default function LoginProvider({ children }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleInput = ({ target }) => {
-    const { name } = target;
-    return (name === 'email' ? setEmail(target.value) : setPassword(target.value));
-  };
+  const handleInput = ({ target: { name, value } }) => (
+    name === 'email' ? setEmail(value) : setPassword(value)
+  );
 
   const handleLogin = () => {
     localStorage.setItem('mealsToken', 1);
@@ -19,9 +18,9 @@ export default function LoginProvider({ children }) {
 
   const contextValue = {
     handleInput,
+    handleLogin,
     email,
     password,
-    handleLogin,
   };
 
   return (
