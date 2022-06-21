@@ -1,15 +1,14 @@
 import React from 'react';
-import Footer from './components/Footer';
-import '../App.css';
 import Header from './components/Header';
+import '../App.css';
 
-function Foods() {
+function FavoriteRecipes() {
   return (
     <div>
       <Header />
-      <Footer />
+      <p>FavoriteRecipes Page</p>
     </div>
   );
 }
 
-export default Foods;
+export default FavoriteRecipes;
