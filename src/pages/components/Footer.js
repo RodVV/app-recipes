@@ -8,32 +8,29 @@ function Footer() {
   return (
     <footer data-testid="footer" className="footer-component">
       <Link to="/drinks">
-        <button
-          type="button"
+        <input
+          type="image"
           id="drinks-bottom-btn"
           data-testid="drinks-bottom-btn"
           src={ drinkIcon }
-        >
-          <img src={ drinkIcon } alt="Drink Icon" />
-        </button>
+          alt="Drink Icon"
+        />
       </Link>
       <Link to="/explore">
-        <button
-          type="button"
+        <input
+          type="image"
           data-testid="explore-bottom-btn"
           src={ exploreIcon }
-        >
-          <img src={ exploreIcon } alt="Explore Icon" />
-        </button>
+          alt="Explore Icon"
+        />
       </Link>
       <Link to="/foods">
-        <button
-          type="button"
+        <input
+          type="image"
           data-testid="food-bottom-btn"
           src={ mealIcon }
-        >
-          <img src={ mealIcon } alt="Meal Icon" />
-        </button>
+          alt="Meal Icon"
+        />
       </Link>
     </footer>
   );
