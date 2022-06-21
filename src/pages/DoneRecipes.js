@@ -10,4 +10,5 @@ function DoneRecipes() {
     </div>
   );
 }
+
 export default DoneRecipes;
