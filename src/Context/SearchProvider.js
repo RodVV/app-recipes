@@ -4,6 +4,12 @@ import Context from './Context';
 
 export default function SearchProvider({ children }) {
   const [data, setData] = useState([]);
+  // const [showBar, setShowBar] = useState(false);
+
+  // const handleShowBar = () => {
+  //   setShowBar(!showBar);
+  // };
+
   useEffect(() => {
     const fetchApi = async () => {
       const response = await fetch('https://www.themealdb.com/api/json/v1/1/filter.php?i=garlic');
@@ -19,6 +25,8 @@ export default function SearchProvider({ children }) {
 
   const contextValue = {
     data,
+    // handleShowBar,
+    // showBar,
   };
 
   return (

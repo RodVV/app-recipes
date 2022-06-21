@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
+// import Context from '../../Context/Context';
 import profileIcon from '../../images/profileIcon.svg';
 import searchIcon from '../../images/searchIcon.svg';
 
 function Header() {
+  const [showBar, setShowBar] = useState(false);
+
   const pathname = useLocation();
 
   const showSearchBar = () => {
@@ -15,6 +18,7 @@ function Header() {
         type="image"
         src={ searchIcon }
         alt="Search icon"
+        onClick={ () => setShowBar(!showBar) }
       />);
     }
   };
