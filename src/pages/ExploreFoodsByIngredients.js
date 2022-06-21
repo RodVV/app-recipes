@@ -2,13 +2,13 @@ import React from 'react';
 import Footer from './components/Footer';
 import '../App.css';
 
-function Foods() {
+function ExploreFoodsByIngredients() {
   return (
     <div>
-      <p>Foods Page</p>
+      <p>ExploreFoodsByIngredients Page</p>
       <Footer />
     </div>
   );
 }
 
-export default Foods;
+export default ExploreFoodsByIngredients;
