@@ -2,4 +2,6 @@ const SIX = 6;
 
 const verifyEmail = /\S+@\S+\.\S+/;
 
-export { SIX, verifyEmail };
+const { email } = JSON.parse(localStorage.getItem('user')) || {};
+
+export { SIX, verifyEmail, email };
