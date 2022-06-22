@@ -9,7 +9,7 @@ describe('Testa a página de Drinks da aplicação', () => {
 
     history.push('/drinks');
 
-    const pageHeading = screen.getByText('Drinks Page');
+    const pageHeading = screen.getByText('Drinks');
     expect(pageHeading).toBeInTheDocument();
   });
 });

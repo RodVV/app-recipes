@@ -19,7 +19,7 @@ function Search() {
         />
       </label>
       <label htmlFor="ingredient">
-        Ingrediente:
+        Ingredient:
         <input
           type="radio"
           data-testid="ingredient-search-radio"
@@ -29,7 +29,7 @@ function Search() {
         />
       </label>
       <label htmlFor="name">
-        Nome:
+        Name:
         <input
           type="radio"
           data-testid="name-search-radio"
@@ -39,7 +39,7 @@ function Search() {
         />
       </label>
       <label htmlFor="letter">
-        Primeira letra:
+        First letter:
         <input
           type="radio"
           data-testid="first-letter-search-radio"
