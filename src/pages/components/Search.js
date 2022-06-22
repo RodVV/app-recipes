@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import Context from '../../Context/Context';
 
 function Search() {
+  const { search, handleSearch, handleRadio, searchButton } = useContext(Context);
+
   return (
     <div>
       <label htmlFor="search-input">
@@ -11,38 +14,38 @@ function Search() {
           id="search-input"
           name="search"
           placeholder="Search"
-          // value={ search }
-          // onChange={ handleSearch }
+          value={ search }
+          onChange={ handleSearch }
         />
       </label>
-      <label htmlFor="ingredient-radio">
+      <label htmlFor="ingredient">
         Ingrediente:
         <input
           type="radio"
           data-testid="ingredient-search-radio"
-          name="ingredient"
-          id="ingredient-radio"
-          // onChange={ handleRadio }
+          name="radio-filter"
+          id="ingredient"
+          onChange={ handleRadio }
         />
       </label>
-      <label htmlFor="name-radio">
+      <label htmlFor="name">
         Nome:
         <input
           type="radio"
           data-testid="name-search-radio"
-          name="name"
-          id="name-radio"
-          // onChange={ handleRadio }
+          name="radio-filter"
+          id="name"
+          onChange={ handleRadio }
         />
       </label>
-      <label htmlFor="letter-radio">
+      <label htmlFor="letter">
         Primeira letra:
         <input
           type="radio"
           data-testid="first-letter-search-radio"
-          name="first-letter"
-          id="letter-radio"
-          // onChange={ handleRadio }
+          name="radio-filter"
+          id="letter"
+          onChange={ handleRadio }
         />
       </label>
       <button
@@ -50,6 +53,7 @@ function Search() {
         data-testid="exec-search-btn"
         name="search-btn"
         id="search-btn"
+        onClick={ searchButton }
       >
         Search
       </button>
