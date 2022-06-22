@@ -3,7 +3,7 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './helpers/renderWithRouter';
 import App from '../App';
-import { API_URL, mockHeader } from './helpers';
+import { API_URL, mockHeader, searchIcon } from './helpers';
 
 describe('Testa o Header da aplicação', () => {
   it('Teste 1 - Testa se tem os inputs de perfil, título e de busca', () => {
@@ -17,7 +17,7 @@ describe('Testa o Header da aplicação', () => {
     const titleInput = screen.getByText('Foods');
     expect(titleInput).toBeInTheDocument();
 
-    const searchBar = screen.getByAltText('Search icon');
+    const searchBar = screen.getByAltText(searchIcon);
     expect(searchBar).toBeInTheDocument();
   });
 
@@ -39,7 +39,7 @@ describe('Testa o Header da aplicação', () => {
 
     history.push('/foods');
 
-    const searchBar = screen.getByAltText('Search icon');
+    const searchBar = screen.getByAltText(searchIcon);
     expect(searchBar).toBeInTheDocument();
 
     userEvent.click(searchBar);
@@ -60,6 +60,25 @@ describe('Testa o Header da aplicação', () => {
     const { history } = renderWithRouter(<App />);
 
     history.push('/foods');
+
+    const searchBar = screen.getByAltText(searchIcon);
+    expect(searchBar).toBeInTheDocument();
+
+    userEvent.click(searchBar);
+
+    const searchInput = screen.getByRole('textbox', { name: 'Search Recipe' });
+
+    userEvent.type(searchInput, 'garlic');
+
+    const ingredientRadio = screen.getAllByRole('radio');
+    expect(ingredientRadio[0]).toBeInTheDocument();
+
+    userEvent.click(ingredientRadio[0]);
+
+    const finishSearchButton = screen.getByRole('button', { name: 'Search' });
+    expect(finishSearchButton).toBeInTheDocument();
+
+    userEvent.click(finishSearchButton);
 
     expect(global.fetch).toBeCalledWith(API_URL);
     expect(global.fetch).toBeCalledTimes(1);

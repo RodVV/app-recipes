@@ -1,11 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Context from './Context';
 
-let LINK_API = '';
+export default function ContextProvider({ children }) {
+  // loginProvider
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-export default function SearchProvider({ children }) {
+  const handleInput = ({ target: { name, value } }) => (
+    name === 'email' ? setEmail(value) : setPassword(value)
+  );
+
+  const handleLogin = () => {
+    localStorage.setItem('mealsToken', 1);
+    localStorage.setItem('cocktailsToken', 1);
+    localStorage.setItem('user', JSON.stringify({ email }));
+  };
+
+  // searchProvider
+  let API_URL = '';
+
   const [data, setData] = useState([]);
   const [search, setSearch] = useState('');
   const [radioFilter, setRadioFilter] = useState('');
@@ -22,8 +37,6 @@ export default function SearchProvider({ children }) {
   };
 
   const redirectData = (fetchedData) => {
-    console.log(fetchedData);
-
     if (fetchedData.meals === null || fetchedData.drinks === null) {
       global.alert('Sorry, we haven\'t found any recipes for these filters.');
     }
@@ -47,55 +60,51 @@ export default function SearchProvider({ children }) {
       if (pathname === '/foods') {
         switch (radioFilter) {
         case 'ingredient': {
-          LINK_API = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${search}`;
+          API_URL = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${search}`;
           break;
         }
         case 'name': {
-          LINK_API = `https://www.themealdb.com/api/json/v1/1/search.php?s=${search}`;
-          break;
-        }
-        case 'letter': {
-          LINK_API = `https://www.themealdb.com/api/json/v1/1/search.php?f=${search.charAt(0)}`;
+          API_URL = `https://www.themealdb.com/api/json/v1/1/search.php?s=${search}`;
           break;
         }
         default:
-          return;
+          API_URL = `https://www.themealdb.com/api/json/v1/1/search.php?f=${search.charAt(0)}`;
         }
       } else {
         switch (radioFilter) {
         case 'ingredient': {
-          LINK_API = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${search}`;
+          API_URL = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${search}`;
           break;
         }
         case 'name': {
-          LINK_API = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${search}`;
-          break;
-        }
-        case 'letter': {
-          LINK_API = `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${search.charAt(0)}`;
+          API_URL = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${search}`;
           break;
         }
         default:
-          return;
+          API_URL = `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${search.charAt(0)}`;
         }
       }
 
-      const fetchApi = async () => {
-        const response = await fetch(LINK_API);
+      const fetchAPI = async () => {
+        const response = await fetch(API_URL);
         const fetchedData = await response.json();
         setData(fetchedData);
         redirectData(fetchedData);
       };
-      fetchApi();
+      fetchAPI();
     }
   };
 
   const contextValue = {
-    data,
-    search,
+    handleInput,
+    handleLogin,
     handleSearch,
     handleRadio,
     searchButton,
+    email,
+    password,
+    data,
+    search,
   };
 
   return (
@@ -105,6 +114,6 @@ export default function SearchProvider({ children }) {
   );
 }
 
-SearchProvider.propTypes = {
+ContextProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
