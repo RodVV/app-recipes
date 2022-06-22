@@ -31,4 +31,14 @@ const mockHeader = {
   ],
 };
 
-export { validEmail, validPassword, invalidEmail, invalidPassword, API_URL, mockHeader };
+const searchIcon = 'Search icon';
+
+export {
+  validEmail,
+  validPassword,
+  invalidEmail,
+  invalidPassword,
+  API_URL,
+  mockHeader,
+  searchIcon,
+};
