@@ -7,14 +7,13 @@ import RecipeCard from './components/RecipeCard';
 
 function Foods() {
   const { data } = useContext(Context);
-  const { meals } = data;
 
   return (
     <div>
       <Header />
 
       {
-        meals !== null && meals !== undefined && meals.map((e, i) => (
+        data.meals !== null && data.meals !== undefined && data.meals.map((e, i) => (
           <div key={ i }>
             <RecipeCard index={ i } food={ e } />
           </div>

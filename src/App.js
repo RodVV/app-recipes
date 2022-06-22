@@ -18,8 +18,8 @@ import NotFound from './pages/NotFound';
 
 function App() {
   return (
-    <LoginProvider>
-      <SearchProvider>
+    <SearchProvider>
+      <LoginProvider>
         <Switch>
           <Route exact path="/" component={ Login } />
           <Route exact path="/foods" component={ Foods } />
@@ -49,8 +49,8 @@ function App() {
           <Route path="/favorite-recipes" component={ FavoriteRecipes } />
           <Route route="*" component={ NotFound } />
         </Switch>
-      </SearchProvider>
-    </LoginProvider>
+      </LoginProvider>
+    </SearchProvider>
   );
 }
 

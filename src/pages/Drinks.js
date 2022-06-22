@@ -8,14 +8,13 @@ import { ELEVEN } from './helpers';
 
 function Drinks() {
   const { data } = useContext(Context);
-  const { drinks } = data;
 
   return (
     <div>
       <Header />
-      {drinks !== null
-        && drinks !== undefined
-        && drinks
+      {data.drinks !== null
+        && data.drinks !== undefined
+        && data.drinks
           .filter((e, i) => i <= ELEVEN)
           .map((e, i) => (
             <div key={ i }>
