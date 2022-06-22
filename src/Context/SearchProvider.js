@@ -14,10 +14,6 @@ export default function SearchProvider({ children }) {
     fetchApi();
   }, []);
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
   const contextValue = {
     data,
   };

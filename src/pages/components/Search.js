@@ -4,6 +4,7 @@ function Search() {
   return (
     <div>
       <label htmlFor="search-input">
+        Search Recipe
         <input
           type="text"
           data-testid="search-input"

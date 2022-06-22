@@ -5,13 +5,13 @@ import searchIcon from '../../images/searchIcon.svg';
 import Search from './Search';
 
 function Header() {
-  const pathname = useLocation();
+  const { pathname } = useLocation();
   const [showBar, setShowBar] = useState(false);
 
   const showSearchBar = () => {
-    if (pathname.pathname === '/foods'
-    || pathname.pathname === '/explore/foods/nationalities'
-    || pathname.pathname === '/drinks') {
+    if (pathname === '/foods'
+    || pathname === '/explore/foods/nationalities'
+    || pathname === '/drinks') {
       return (<input
         data-testid="search-top-btn"
         type="image"
@@ -25,8 +25,7 @@ function Header() {
   const paragraph = (<p data-testid="page-title">Explore Ingredients</p>);
 
   const createTitle = () => {
-    switch (pathname.pathname) {
-    case '/foods': return <p data-testid="page-title">Foods</p>;
+    switch (pathname) {
     case '/drinks': return <p data-testid="page-title">Drinks</p>;
     case '/explore': return <p data-testid="page-title">Explore</p>;
     case '/explore/foods': return <p data-testid="page-title">Explore Foods</p>;
@@ -39,7 +38,7 @@ function Header() {
     case '/favorite-recipes': return <p data-testid="page-title">Favorite Recipes</p>;
     case '/profile': return <p data-testid="page-title">Profile</p>;
     default:
-      return null;
+      return <p data-testid="page-title">Foods</p>;
     }
   };
 
