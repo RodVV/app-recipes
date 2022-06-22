@@ -90,10 +90,6 @@ export default function SearchProvider({ children }) {
     }
   };
 
-  useEffect(() => {
-    console.log(data.drinks);
-  }, [data]);
-
   const contextValue = {
     data,
     search,
