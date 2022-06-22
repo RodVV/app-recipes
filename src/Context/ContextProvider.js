@@ -61,27 +61,33 @@ export default function ContextProvider({ children }) {
         switch (radioFilter) {
         case 'ingredient': {
           API_URL = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${search}`;
+          setSearch('');
           break;
         }
         case 'name': {
           API_URL = `https://www.themealdb.com/api/json/v1/1/search.php?s=${search}`;
+          setSearch('');
           break;
         }
         default:
           API_URL = `https://www.themealdb.com/api/json/v1/1/search.php?f=${search.charAt(0)}`;
+          setSearch('');
         }
       } else {
         switch (radioFilter) {
         case 'ingredient': {
           API_URL = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${search}`;
+          setSearch('');
           break;
         }
         case 'name': {
           API_URL = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${search}`;
+          setSearch('');
           break;
         }
         default:
           API_URL = `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${search.charAt(0)}`;
+          setSearch('');
         }
       }
 
