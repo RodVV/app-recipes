@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Context from './Context';
 
 export default function ContextProvider({ children }) {
   // loginProvider
+  const ApiFoods = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+  const ApiDrink = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [recipesFood, setRecipesFood] = useState([]);
+  const [recipesDrink, setRecipesDrink] = useState([]);
 
   const handleInput = ({ target: { name, value } }) => (
     name === 'email' ? setEmail(value) : setPassword(value)
@@ -101,6 +105,31 @@ export default function ContextProvider({ children }) {
     }
   };
 
+  useEffect(() => {
+    const recipesFoods = async () => {
+      const maxLimitRecipes = 12;
+      const request = await fetch(ApiFoods);
+      const response = await request.json();
+      const allProducts = response.meals
+        .filter((food, index) => index < maxLimitRecipes && food);
+      setRecipesFood(allProducts);
+    };
+    recipesFoods();
+  }, []);
+
+  useEffect(() => {
+    const recipesDrinks = async () => {
+      const maxLimitRecipes = 12;
+      const request = await fetch(ApiDrink);
+      const response = await request.json();
+      console.log(response);
+      const allProducts = response.drinks
+        .filter((drink, index) => index < maxLimitRecipes && drink);
+      setRecipesDrink(allProducts);
+    };
+    recipesDrinks();
+  }, []);
+
   const contextValue = {
     handleInput,
     handleLogin,
@@ -111,6 +140,8 @@ export default function ContextProvider({ children }) {
     password,
     data,
     search,
+    recipesFood,
+    recipesDrink,
   };
 
   return (

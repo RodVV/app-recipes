@@ -7,12 +7,22 @@ import RecipeCard from './components/RecipeCard';
 import '../App.css';
 
 function Drinks() {
-  const { data } = useContext(Context);
+  const { data, recipesDrink } = useContext(Context);
   const { drinks } = data;
 
   return (
     <div>
       <Header />
+      {recipesDrink
+        .map((drink, index) => (
+          <div key={ index }>
+            <RecipeCard
+              index={ index }
+              food={ undefined }
+              drink={ drink }
+            />
+          </div>
+        ))}
       { drinks !== null && drinks !== undefined && drinks.filter((e, i) => i <= ELEVEN)
         .map((e, i) => (
           <div key={ i }>
