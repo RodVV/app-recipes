@@ -4,21 +4,41 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Context from '../Context/Context';
 import RecipeCard from './components/RecipeCard';
+import ButtonFilter from './components/ButtonFilters';
 import '../App.css';
 
 function Drinks() {
-  const { data } = useContext(Context);
+  const { data, recipesDrink, cards, allCategories } = useContext(Context);
   const { drinks } = data;
 
   return (
     <div>
       <Header />
-      { drinks !== null && drinks !== undefined && drinks.filter((e, i) => i <= ELEVEN)
+      <ButtonFilter context="listDrink" />
+      { ((!drinks && cards.length === 0)
+      || allCategories) && recipesDrink.map((drink, index) => (
+        <div key={ index }>
+          <RecipeCard
+            index={ index }
+            drink={ drink }
+          />
+        </div>
+      )) }
+      { (drinks && cards.length === 0 && !allCategories)
+      && drinks.filter((e, i) => i <= ELEVEN)
         .map((e, i) => (
           <div key={ i }>
             <RecipeCard index={ i } drink={ e } />
           </div>
         )) }
+      { (cards.length > 0 && !allCategories) && cards.map((drinksCategory, index) => (
+        <div key={ index }>
+          <RecipeCard
+            index={ index }
+            drink={ drinksCategory }
+          />
+        </div>
+      )) }
       <Footer />
     </div>
   );
