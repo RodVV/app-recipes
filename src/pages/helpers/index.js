@@ -12,6 +12,10 @@ const ELEVEN = 11;
 
 const TWELVE = 12;
 
+const THIRTEEN = 13;
+
+const FOURTEEN = 14;
+
 const TWENTY_NINE = 29;
 
 const FOURTY_NINE = 49;
@@ -32,6 +36,8 @@ export {
   NINE,
   ELEVEN,
   TWELVE,
+  THIRTEEN,
+  FOURTEEN,
   TWENTY_NINE,
   FOURTY_NINE,
   ApiFoods,

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
-  FIVE, NINE, TWELVE, TWENTY_NINE, FOURTY_NINE,
+  FIVE, NINE, TWELVE, THIRTEEN, FOURTEEN, TWENTY_NINE, FOURTY_NINE,
   ApiFoods, ApiDrink, ApiListFood, ApiListDrink,
 } from '../pages/helpers';
 import Context from './Context';
@@ -190,7 +190,7 @@ export default function ContextProvider({ children }) {
   useEffect(() => {
     let recipeID = '';
     const foodDetails = async () => {
-      if (pathname.includes('/foods')) {
+      if (pathname.includes('/foods') && pathname.length === TWELVE) {
         recipeID = pathname.replace('/foods/', '');
         const request = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recipeID}`);
         const response = await request.json();
@@ -201,7 +201,8 @@ export default function ContextProvider({ children }) {
         const slicedFoodMeasurements = foodValues.slice(TWENTY_NINE, FOURTY_NINE);
         setFoodIngredients(slicedFoodIngredients);
         setFoodIngredientsMeasurement(slicedFoodMeasurements);
-      } else if (pathname.includes('/drinks')) {
+      } else if (pathname.includes('/drinks')
+      && (pathname.length === THIRTEEN || pathname.length === FOURTEEN)) {
         recipeID = pathname.replace('/drinks/', '');
         const request = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${recipeID}`);
         const response = await request.json();
