@@ -32,8 +32,13 @@ function RecipeCard({ index, food, drink }) {
 
 RecipeCard.propTypes = {
   index: PropTypes.number.isRequired,
-  food: PropTypes.objectOf(PropTypes.any).isRequired,
-  drink: PropTypes.objectOf(PropTypes.any).isRequired,
+  food: PropTypes.objectOf(PropTypes.any),
+  drink: PropTypes.objectOf(PropTypes.any),
+};
+
+RecipeCard.defaultProps = {
+  food: undefined,
+  drink: undefined,
 };
 
 export default RecipeCard;

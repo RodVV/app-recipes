@@ -8,28 +8,36 @@ import ButtonFilter from './components/ButtonFilters';
 import '../App.css';
 
 function Foods() {
-  const { data, recipesFood } = useContext(Context);
+  const { data, recipesFood, cards } = useContext(Context);
   const { meals } = data;
 
   return (
     <div>
+      { console.log(cards) }
       <Header />
       <ButtonFilter context="listFood" />
-      {!meals && recipesFood.map((food, index) => (
+      { (!meals && cards.length === 0) && recipesFood.map((food, index) => (
         <div key={ index }>
           <RecipeCard
             index={ index }
             food={ food }
-            drink={ null }
           />
         </div>
-      ))}
-      { meals && meals.filter((e, i) => i <= ELEVEN)
+      )) }
+      { (meals && cards.length === 0) && meals.filter((e, i) => i <= ELEVEN)
         .map((e, i) => (
           <div key={ i }>
             <RecipeCard index={ i } food={ e } />
           </div>
         )) }
+      { cards.length > 0 && cards.map((foodCategory, index) => (
+        <div key={ index }>
+          <RecipeCard
+            index={ index }
+            food={ foodCategory }
+          />
+        </div>
+      )) }
       <Footer />
     </div>
   );

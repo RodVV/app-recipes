@@ -8,27 +8,35 @@ import ButtonFilter from './components/ButtonFilters';
 import '../App.css';
 
 function Drinks() {
-  const { data, recipesDrink } = useContext(Context);
+  const { data, recipesDrink, cards } = useContext(Context);
   const { drinks } = data;
 
   return (
     <div>
       <Header />
       <ButtonFilter context="listDrink" />
-      {!drinks && recipesDrink.map((drink, index) => (
+      { (!drinks && cards.length === 0) && recipesDrink.map((drink, index) => (
         <div key={ index }>
           <RecipeCard
             index={ index }
             drink={ drink }
           />
         </div>
-      ))}
-      { drinks && drinks.filter((e, i) => i <= ELEVEN)
+      )) }
+      { (drinks && cards.length === 0) && drinks.filter((e, i) => i <= ELEVEN)
         .map((e, i) => (
           <div key={ i }>
             <RecipeCard index={ i } drink={ e } />
           </div>
         )) }
+      { cards.length > 0 && cards.map((drinksCategory, index) => (
+        <div key={ index }>
+          <RecipeCard
+            index={ index }
+            drink={ drinksCategory }
+          />
+        </div>
+      )) }
       <Footer />
     </div>
   );
