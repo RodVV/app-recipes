@@ -5,7 +5,6 @@ import '../App.css';
 
 function Explore() {
   const { drinkDetail } = useContext(Context);
-  console.log(drinkDetail);
   return (Object.entries(drinkDetail).length > 0 && (
     <div>
       <p>{drinkDetail.drinks[0].idDrink}</p>
