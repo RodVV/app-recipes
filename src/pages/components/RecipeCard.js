@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 function RecipeCard({ index, food, drink }) {
   if (food !== undefined) {
     const { strMealThumb, strMeal, idMeal } = food;
-    console.log(food);
     return (
       <Link to={ `/foods/${idMeal}` }>
         <div data-testid={ `${index}-recipe-card` }>

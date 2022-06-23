@@ -14,6 +14,8 @@ export default function ContextProvider({ children }) {
   const [cards, setCards] = useState([]);
   const [category, setCategory] = useState('');
   const [allCategories, setAllCategories] = useState(false);
+  const [foodDetail, setFoodDetail] = useState([]);
+  const [drinkDetail, setDrinkDetail] = useState([]);
 
   const ApiFoods = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
   const ApiDrink = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
@@ -193,6 +195,24 @@ export default function ContextProvider({ children }) {
     setAllCategories(!allCategories);
   };
 
+  useEffect(() => {
+    let recipeID = '';
+    const foodDetails = async () => {
+      if (pathname.includes('/foods')) {
+        recipeID = pathname.replace('/foods/', '');
+        const request = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recipeID}`);
+        const response = await request.json();
+        setFoodDetail(response);
+      } else if (pathname.includes('/drinks')) {
+        recipeID = pathname.replace('/drinks/', '');
+        const request = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${recipeID}`);
+        const response = await request.json();
+        setDrinkDetail(response);
+      }
+    };
+    foodDetails();
+  }, [pathname]);
+
   const contextValue = {
     handleInput,
     handleLogin,
@@ -211,6 +231,8 @@ export default function ContextProvider({ children }) {
     handleCategory,
     allCategories,
     handleAllCategories,
+    foodDetail,
+    drinkDetail,
   };
 
   return (
