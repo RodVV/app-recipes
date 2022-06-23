@@ -5,12 +5,17 @@ import Context from './Context';
 
 export default function ContextProvider({ children }) {
   // loginProvider
-  const ApiFoods = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
-  const ApiDrink = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [recipesFood, setRecipesFood] = useState([]);
   const [recipesDrink, setRecipesDrink] = useState([]);
+  const [listFood, setListFood] = useState([]);
+  const [listDrink, setListDrink] = useState([]);
+
+  const ApiFoods = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+  const ApiDrink = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+  const ApiListFood = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
+  const ApiListDrink = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
 
   const handleInput = ({ target: { name, value } }) => (
     name === 'email' ? setEmail(value) : setPassword(value)
@@ -122,12 +127,36 @@ export default function ContextProvider({ children }) {
       const maxLimitRecipes = 12;
       const request = await fetch(ApiDrink);
       const response = await request.json();
-      console.log(response);
       const allProducts = response.drinks
         .filter((drink, index) => index < maxLimitRecipes && drink);
       setRecipesDrink(allProducts);
     };
     recipesDrinks();
+  }, []);
+
+  useEffect(() => {
+    const listFiltersFood = async () => {
+      const maxLimitFilter = 5;
+      const request = await fetch(ApiListFood);
+      const response = await request.json();
+      const filterByFoods = response.meals
+        .filter((category, index) => index < maxLimitFilter && category);
+      setListFood(filterByFoods);
+    };
+    listFiltersFood();
+  }, []);
+
+  useEffect(() => {
+    const listFiltersDrink = async () => {
+      const maxLimitFilter = 5;
+      const request = await fetch(ApiListDrink);
+      const response = await request.json();
+      console.log(response);
+      const filterByDrinks = response.drinks
+        .filter((category, index) => index < maxLimitFilter && category);
+      setListDrink(filterByDrinks);
+    };
+    listFiltersDrink();
   }, []);
 
   const contextValue = {
@@ -142,6 +171,8 @@ export default function ContextProvider({ children }) {
     search,
     recipesFood,
     recipesDrink,
+    listFood,
+    listDrink,
   };
 
   return (

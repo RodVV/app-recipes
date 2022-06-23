@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Context from '../Context/Context';
 import RecipeCard from './components/RecipeCard';
+import ButtonFilter from './components/ButtonFilters';
 import '../App.css';
 
 function Foods() {
@@ -13,6 +14,7 @@ function Foods() {
   return (
     <div>
       <Header />
+      <ButtonFilter context="listFood" />
       {recipesFood
         .map((food, index) => (
           <div key={ index }>
@@ -23,7 +25,7 @@ function Foods() {
             />
           </div>
         ))}
-      { meals !== null && meals !== undefined && meals.filter((e, i) => i <= ELEVEN)
+      { meals && meals.filter((e, i) => i <= ELEVEN)
         .map((e, i) => (
           <div key={ i }>
             <RecipeCard index={ i } food={ e } />
