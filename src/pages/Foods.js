@@ -15,16 +15,15 @@ function Foods() {
     <div>
       <Header />
       <ButtonFilter context="listFood" />
-      {recipesFood
-        .map((food, index) => (
-          <div key={ index }>
-            <RecipeCard
-              index={ index }
-              food={ food }
-              drink={ null }
-            />
-          </div>
-        ))}
+      {!meals && recipesFood.map((food, index) => (
+        <div key={ index }>
+          <RecipeCard
+            index={ index }
+            food={ food }
+            drink={ null }
+          />
+        </div>
+      ))}
       { meals && meals.filter((e, i) => i <= ELEVEN)
         .map((e, i) => (
           <div key={ i }>

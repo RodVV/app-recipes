@@ -11,11 +11,14 @@ export default function ContextProvider({ children }) {
   const [recipesDrink, setRecipesDrink] = useState([]);
   const [listFood, setListFood] = useState([]);
   const [listDrink, setListDrink] = useState([]);
+  const [cards, setCards] = useState([]);
+  const [category, setCategory] = useState('');
 
   const ApiFoods = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
   const ApiDrink = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
   const ApiListFood = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
   const ApiListDrink = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
+  const ApiFIlterCategory = `www.themealdb.com/api/json/v1/1/filter.php?c=${category}`;
 
   const handleInput = ({ target: { name, value } }) => (
     name === 'email' ? setEmail(value) : setPassword(value)
@@ -159,6 +162,18 @@ export default function ContextProvider({ children }) {
     listFiltersDrink();
   }, []);
 
+  useEffect(() => {
+    const FilterCategory = async () => {
+      const maxLimitRecipes = 12;
+      const request = await fetch(ApiFIlterCategory);
+      const response = await request.json();
+      const allProducts = response.meals
+        .filter((drink, index) => index < maxLimitRecipes && drink);
+      setCards(allProducts);
+    };
+    FilterCategory();
+  }, []);
+
   const contextValue = {
     handleInput,
     handleLogin,
@@ -173,6 +188,8 @@ export default function ContextProvider({ children }) {
     recipesDrink,
     listFood,
     listDrink,
+    setCategory,
+    cards,
   };
 
   return (
