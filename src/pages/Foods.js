@@ -8,15 +8,15 @@ import ButtonFilter from './components/ButtonFilters';
 import '../App.css';
 
 function Foods() {
-  const { data, recipesFood, cards } = useContext(Context);
+  const { data, recipesFood, cards, allCategories } = useContext(Context);
   const { meals } = data;
 
   return (
     <div>
-      { console.log(cards) }
       <Header />
       <ButtonFilter context="listFood" />
-      { (!meals && cards.length === 0) && recipesFood.map((food, index) => (
+      { ((!meals && cards.length === 0)
+      || allCategories) && recipesFood.map((food, index) => (
         <div key={ index }>
           <RecipeCard
             index={ index }
@@ -24,13 +24,14 @@ function Foods() {
           />
         </div>
       )) }
-      { (meals && cards.length === 0) && meals.filter((e, i) => i <= ELEVEN)
+      { (meals && cards.length === 0
+      && !allCategories) && meals.filter((e, i) => i <= ELEVEN)
         .map((e, i) => (
           <div key={ i }>
             <RecipeCard index={ i } food={ e } />
           </div>
         )) }
-      { cards.length > 0 && cards.map((foodCategory, index) => (
+      { (cards.length > 0 && !allCategories) && cards.map((foodCategory, index) => (
         <div key={ index }>
           <RecipeCard
             index={ index }

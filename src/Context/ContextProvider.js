@@ -12,7 +12,8 @@ export default function ContextProvider({ children }) {
   const [listFood, setListFood] = useState([]);
   const [listDrink, setListDrink] = useState([]);
   const [cards, setCards] = useState([]);
-  // const [category, setCategory] = useState('');
+  const [category, setCategory] = useState('');
+  const [allCategories, setAllCategories] = useState(false);
 
   const ApiFoods = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
   const ApiDrink = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
@@ -153,7 +154,6 @@ export default function ContextProvider({ children }) {
       const maxLimitFilter = 5;
       const request = await fetch(ApiListDrink);
       const response = await request.json();
-      console.log(response);
       const filterByDrinks = response.drinks
         .filter((drinkCategory, index) => index < maxLimitFilter && drinkCategory);
       setListDrink(filterByDrinks);
@@ -165,24 +165,32 @@ export default function ContextProvider({ children }) {
     const foodArray = ['Beef', 'Breakfast', 'Chicken', 'Dessert', 'Goat'];
 
     let allProducts = [];
-
-    const maxLimitRecipes = 12;
-    if (foodArray.includes(categoryValue)) {
-      const request = await fetch(
-        `https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryValue}`,
-      );
-      const responseFood = await request.json();
-      allProducts = responseFood.meals
-        .filter((food, index) => index < maxLimitRecipes && food);
+    if (cards.length > 0 && category === categoryValue) {
+      setCards([]);
     } else {
-      const request = await fetch(
-        `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${categoryValue}`,
-      );
-      const responseDrink = await request.json();
-      allProducts = responseDrink.drinks
-        .filter((drink, index) => index < maxLimitRecipes && drink);
+      const maxLimitRecipes = 12;
+      if (foodArray.includes(categoryValue)) {
+        const request = await fetch(
+          `https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryValue}`,
+        );
+        const responseFood = await request.json();
+        allProducts = responseFood.meals
+          .filter((food, index) => index < maxLimitRecipes && food);
+      } else {
+        const request = await fetch(
+          `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${categoryValue}`,
+        );
+        const responseDrink = await request.json();
+        allProducts = responseDrink.drinks
+          .filter((drink, index) => index < maxLimitRecipes && drink);
+      }
+      setCategory(categoryValue);
+      setCards(allProducts);
     }
-    setCards(allProducts);
+  };
+
+  const handleAllCategories = () => {
+    setAllCategories(!allCategories);
   };
 
   const contextValue = {
@@ -201,6 +209,8 @@ export default function ContextProvider({ children }) {
     listDrink,
     cards,
     handleCategory,
+    allCategories,
+    handleAllCategories,
   };
 
   return (
