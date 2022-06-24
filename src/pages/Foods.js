@@ -1,23 +1,41 @@
-import React, { useContext } from 'react';
-import { TWELVE } from './helpers/index';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { TWELVE, ApiFoods } from './helpers/index';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Context from '../Context/Context';
+// import Context from '../Context/Context';
 import RecipeCard from './components/RecipeCard';
 import ButtonFilter from './components/ButtonFilters';
+import { setInitialMeals } from '../redux/slices/sliceOfFood';
 import '../App.css';
 
 function Foods() {
+  const dispatch = useDispatch();
+  const foodSelector = useSelector(({ foodSlice }) => (foodSlice));
+  const searchSelector = useSelector(({ search }) => (search));
+  const { meals } = searchSelector.data;
   // const { data, recipesFood, cards, allCategories } = useContext(Context);
-  const dataSearch = useSelector(({ search }) => (search.data));
-  const { meals } = dataSearch;
+  const { initialMeals } = foodSelector;
+  const buttonSelector = useSelector(({ buttonFilter }) => buttonFilter);
+  const { cards, allCategory } = buttonSelector;
+
+  useEffect(() => {
+    const recipesFoods = async () => {
+      const request = await fetch(ApiFoods);
+      const response = await request.json();
+      const allProducts = response.meals.filter((_food, index) => index < TWELVE);
+      dispatch(setInitialMeals(allProducts));
+      console.log(initialMeals);
+    };
+    recipesFoods();
+  }, []);
 
   return (
     <div>
       <Header />
       <ButtonFilter context="listFood" />
       { ((!meals && cards.length === 0)
-      || allCategories) && recipesFood.map((food, index) => (
+      || allCategory) && initialMeals.map((food, index) => (
         <div key={ index }>
           <RecipeCard index={ index } food={ food } />
         </div>
