@@ -7,6 +7,30 @@ const ButtonFilter = ({ context }) => {
     listFood, listDrink, handleCategory, handleAllCategories,
   } = useContext(Context);
 
+  const handleCategory = async (categoryValue) => {
+    const foodArray = ['Beef', 'Breakfast', 'Chicken', 'Dessert', 'Goat'];
+    let allProducts = [];
+    if (cards.length > 0 && category === categoryValue) {
+      setCards([]);
+    } else {
+      if (foodArray.includes(categoryValue)) {
+        const request = await fetch(
+          `https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryValue}`,
+        );
+        const responseFood = await request.json();
+        allProducts = responseFood.meals.filter((_food, index) => index < TWELVE);
+      } else {
+        const request = await fetch(
+          `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${categoryValue}`,
+        );
+        const responseDrink = await request.json();
+        allProducts = responseDrink.drinks.filter((_drink, index) => index < TWELVE);
+      }
+      setCategory(categoryValue);
+      setCards(allProducts);
+    }
+  };
+
   return (
     <div>
       { (context === 'listFood' ? listFood : listDrink)

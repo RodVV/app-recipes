@@ -5,7 +5,6 @@ import { SIX, verifyEmail } from './helpers/index';
 import { changeEmail, changePassword } from '../redux/slices/login';
 
 function Login() {
-  // const { handleInput, handleLogin, email, password } = useContext(Context);
   const userLogin = useSelector(({ login }) => (login));
   const dispatch = useDispatch();
 

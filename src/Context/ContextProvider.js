@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
   FIVE, SIX, NINE, TWELVE, THIRTEEN, FOURTEEN, TWENTY_NINE, FOURTY_NINE,
@@ -24,75 +23,6 @@ export default function ContextProvider({ children }) {
   const [drinkIngredientsMeasurement, setDrinkIngredientsMeasurement] = useState([]);
   const [foodRecommendation, setFoodRecommendation] = useState([]);
 
-  let API_URL = ''; // break line
-  const [data, setData] = useState([]);
-  const [search, setSearch] = useState('');
-  const [radioFilter, setRadioFilter] = useState('');
-  const { pathname } = useLocation();
-  const history = useHistory(); // break line
-  const handleSearch = ({ target: { value } }) => {
-    setSearch(value);
-  }; // break line
-  const handleRadio = ({ target: { id } }) => {
-    setRadioFilter(id);
-  }; // break line
-  const redirectData = (fetchedData) => {
-    if (fetchedData.meals === null || fetchedData.drinks === null) {
-      global.alert('Sorry, we haven\'t found any recipes for these filters.');
-    }
-    if (pathname === '/foods' && fetchedData.meals !== null
-      && fetchedData.meals.length === 1) {
-      history.push(`/foods/${fetchedData.meals[0].idMeal}`);
-    }
-    if (pathname === '/drinks' && fetchedData.drinks !== null
-      && fetchedData.drinks.length === 1) {
-      history.push(`/drinks/${fetchedData.drinks[0].idDrink}`);
-    }
-  }; // break line
-  const searchButton = () => {
-    if (radioFilter === 'letter' && search.length > 1) {
-      global.alert('Your search must have only 1 (one) character');
-      setSearch('');
-    } else {
-      if (pathname === '/foods') {
-        switch (radioFilter) {
-        case 'ingredient': { API_URL = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${search}`;
-          setSearch('');
-          break;
-        }
-        case 'name': { API_URL = `https://www.themealdb.com/api/json/v1/1/search.php?s=${search}`;
-          setSearch('');
-          break;
-        }
-        default: API_URL = `https://www.themealdb.com/api/json/v1/1/search.php?f=${search.charAt(0)}`;
-          setSearch('');
-        }
-      } else {
-        switch (radioFilter) {
-        case 'ingredient': {
-          API_URL = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${search}`;
-          setSearch('');
-          break;
-        }
-        case 'name': {
-          API_URL = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${search}`;
-          setSearch('');
-          break;
-        }
-        default:
-          API_URL = `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${search.charAt(0)}`;
-          setSearch('');
-        }
-      } // break line
-      const fetchAPI = async () => {
-        const response = await fetch(API_URL);
-        const fetchedData = await response.json();
-        setData(fetchedData);
-        redirectData(fetchedData);
-      };
-      fetchAPI();
-    }
-  }; // break line
   useEffect(() => {
     const recipesFoods = async () => {
       const request = await fetch(ApiFoods);
@@ -128,7 +58,10 @@ export default function ContextProvider({ children }) {
       setListDrink(filterDrink);
     };
     listFiltersDrink();
-  }, []); // break line
+  }, []);
+
+  // break line
+
   const handleCategory = async (categoryValue) => {
     const foodArray = ['Beef', 'Breakfast', 'Chicken', 'Dessert', 'Goat'];
     let allProducts = [];

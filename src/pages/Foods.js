@@ -8,8 +8,9 @@ import ButtonFilter from './components/ButtonFilters';
 import '../App.css';
 
 function Foods() {
-  const { data, recipesFood, cards, allCategories } = useContext(Context);
-  const { meals } = data;
+  // const { data, recipesFood, cards, allCategories } = useContext(Context);
+  const dataSearch = useSelector(({ search }) => (search.data));
+  const { meals } = dataSearch;
 
   return (
     <div>
