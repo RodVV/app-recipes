@@ -14,13 +14,7 @@ const THIRTEEN = 13;
 
 const FOURTEEN = 14;
 
-const SEVENTEEN = 17;
-
 const TWENTY_NINE = 29;
-
-const THIRTY_TWO = 32;
-
-const FOURTY_SEVEN = 47;
 
 const FOURTY_NINE = 49;
 
@@ -41,11 +35,8 @@ export {
   TWELVE,
   THIRTEEN,
   FOURTEEN,
-  SEVENTEEN,
   TWENTY_NINE,
-  THIRTY_TWO,
   FOURTY_NINE,
-  FOURTY_SEVEN,
   ApiFoods,
   ApiDrink,
   ApiListFood,

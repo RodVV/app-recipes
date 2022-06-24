@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-function RecipeCard({ index, food, drink }) {
+function RecipeCard({ index, food, drink, datatestid, detail }) {
   if (food !== undefined) {
     const { strMealThumb, strMeal, idMeal } = food;
     return (
@@ -13,7 +13,7 @@ function RecipeCard({ index, food, drink }) {
             src={ strMealThumb }
             alt="comida bonita"
           />
-          <p data-testid={ `${index}-card-name` }>{ strMeal }</p>
+          <p data-testid={ detail ? datatestid : `${index}-card-name` }>{ strMeal }</p>
         </Link>
       </div>
     );
@@ -28,7 +28,7 @@ function RecipeCard({ index, food, drink }) {
             src={ strDrinkThumb }
             alt="comida bonita"
           />
-          <p data-testid={ `${index}-card-name` }>{ strDrink }</p>
+          <p data-testid={ detail ? datatestid : `${index}-card-name` }>{ strDrink }</p>
         </Link>
       </div>
     );
@@ -39,6 +39,8 @@ RecipeCard.propTypes = {
   index: PropTypes.number.isRequired,
   food: PropTypes.objectOf(PropTypes.any),
   drink: PropTypes.objectOf(PropTypes.any),
+  datatestid: PropTypes.string.isRequired,
+  detail: PropTypes.bool.isRequired,
 };
 
 RecipeCard.defaultProps = {

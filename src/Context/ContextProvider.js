@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
-  FIVE, SIX, NINE, TWELVE, THIRTEEN, FOURTEEN, SEVENTEEN,
-  TWENTY_NINE, THIRTY_TWO, FOURTY_SEVEN, FOURTY_NINE,
+  FIVE, SIX, NINE, TWELVE, THIRTEEN, FOURTEEN, TWENTY_NINE, FOURTY_NINE,
   ApiFoods, ApiDrink, ApiListFood, ApiListDrink,
 } from '../pages/helpers';
 import Context from './Context';
@@ -67,18 +66,15 @@ export default function ContextProvider({ children }) {
     } else {
       if (pathname === '/foods') {
         switch (radioFilter) {
-        case 'ingredient': {
-          API_URL = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${search}`;
+        case 'ingredient': { API_URL = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${search}`;
           setSearch('');
           break;
         }
-        case 'name': {
-          API_URL = `https://www.themealdb.com/api/json/v1/1/search.php?s=${search}`;
+        case 'name': { API_URL = `https://www.themealdb.com/api/json/v1/1/search.php?s=${search}`;
           setSearch('');
           break;
         }
-        default:
-          API_URL = `https://www.themealdb.com/api/json/v1/1/search.php?f=${search.charAt(0)}`;
+        default: API_URL = `https://www.themealdb.com/api/json/v1/1/search.php?f=${search.charAt(0)}`;
           setSearch('');
         }
       } else {
@@ -196,11 +192,16 @@ export default function ContextProvider({ children }) {
         const response = await request.json();
         setDrinkDetail(response);
         const drinkArray = response.drinks[0];
-        const drinkValues = Object.values(drinkArray);
-        const slicedDrinksIngredients = drinkValues.slice(SEVENTEEN, THIRTY_TWO);
-        const slicedDrinksMeasurements = drinkValues.slice(THIRTY_TWO, FOURTY_SEVEN);
-        setDrinkIngredients(slicedDrinksIngredients);
-        setDrinkIngredientsMeasurement(slicedDrinksMeasurements);
+        const drinkArrayEntries = Object.entries(drinkArray)
+          .filter((e) => e[0].includes('strIngredient') || e[0].includes('strMeasure'));
+        const drinkArrayIngredients = [];
+        const drinkArrayMeasurements = [];
+        drinkArrayEntries.forEach((e) => {
+          if (e[0].includes('strIngredient')) drinkArrayIngredients.push(e[1]);
+          else drinkArrayMeasurements.push(e[1]);
+        });
+        setDrinkIngredients(drinkArrayIngredients);
+        setDrinkIngredientsMeasurement(drinkArrayMeasurements);
         const requestRecommendation = await fetch(ApiFoods);
         const responseRecommendation = await requestRecommendation.json();
         const allRecommendation = responseRecommendation.meals.filter(
@@ -211,8 +212,7 @@ export default function ContextProvider({ children }) {
     };
     foodDetails();
   }, [pathname]); // break line
-  const contextValue = {
-    handleInput,
+  const contextValue = { handleInput,
     handleLogin,
     handleSearch,
     handleRadio,
@@ -236,8 +236,7 @@ export default function ContextProvider({ children }) {
     drinkRecommendation,
     drinkIngredients,
     drinkIngredientsMeasurement,
-    foodRecommendation,
-  }; // break line
+    foodRecommendation }; // break line
   return (
     <Context.Provider value={ contextValue }>
       { children }
