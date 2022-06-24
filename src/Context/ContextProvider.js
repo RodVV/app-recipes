@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
-  FIVE, NINE, TWELVE, THIRTEEN, FOURTEEN, TWENTY_NINE, FOURTY_NINE,
+  FIVE, SIX, NINE, TWELVE, THIRTEEN, FOURTEEN, SEVENTEEN,
+  TWENTY_NINE, THIRTY_TWO, FOURTY_SEVEN, FOURTY_NINE,
   ApiFoods, ApiDrink, ApiListFood, ApiListDrink,
 } from '../pages/helpers';
 import Context from './Context';
@@ -21,34 +22,31 @@ export default function ContextProvider({ children }) {
   const [drinkDetail, setDrinkDetail] = useState([]);
   const [foodIngredients, setFoodIngredients] = useState([]);
   const [foodIngredientsMeasurement, setFoodIngredientsMeasurement] = useState([]);
+  const [drinkRecommendation, setDrinkRecommendation] = useState([]);
+  const [drinkIngredients, setDrinkIngredients] = useState([]);
+  const [drinkIngredientsMeasurement, setDrinkIngredientsMeasurement] = useState([]);
+  const [foodRecommendation, setFoodRecommendation] = useState([]);
 
   const handleInput = ({ target: { name, value } }) => (
     name === 'email' ? setEmail(value) : setPassword(value)
-  );
-
+  ); // break line
   const handleLogin = () => {
     localStorage.setItem('mealsToken', 1);
     localStorage.setItem('cocktailsToken', 1);
     localStorage.setItem('user', JSON.stringify({ email }));
-  };
-
-  let API_URL = '';
-
+  }; // break line
+  let API_URL = ''; // break line
   const [data, setData] = useState([]);
   const [search, setSearch] = useState('');
   const [radioFilter, setRadioFilter] = useState('');
-
   const { pathname } = useLocation();
-  const history = useHistory();
-
+  const history = useHistory(); // break line
   const handleSearch = ({ target: { value } }) => {
     setSearch(value);
-  };
-
+  }; // break line
   const handleRadio = ({ target: { id } }) => {
     setRadioFilter(id);
-  };
-
+  }; // break line
   const redirectData = (fetchedData) => {
     if (fetchedData.meals === null || fetchedData.drinks === null) {
       global.alert('Sorry, we haven\'t found any recipes for these filters.');
@@ -61,8 +59,7 @@ export default function ContextProvider({ children }) {
       && fetchedData.drinks.length === 1) {
       history.push(`/drinks/${fetchedData.drinks[0].idDrink}`);
     }
-  };
-
+  }; // break line
   const searchButton = () => {
     if (radioFilter === 'letter' && search.length > 1) {
       global.alert('Your search must have only 1 (one) character');
@@ -100,8 +97,7 @@ export default function ContextProvider({ children }) {
           API_URL = `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${search.charAt(0)}`;
           setSearch('');
         }
-      }
-
+      } // break line
       const fetchAPI = async () => {
         const response = await fetch(API_URL);
         const fetchedData = await response.json();
@@ -110,55 +106,45 @@ export default function ContextProvider({ children }) {
       };
       fetchAPI();
     }
-  };
-
+  }; // break line
   useEffect(() => {
     const recipesFoods = async () => {
       const request = await fetch(ApiFoods);
       const response = await request.json();
-      const allProducts = response.meals
-        .filter((food, index) => index < TWELVE && food);
+      const allProducts = response.meals.filter((_food, index) => index < TWELVE);
       setRecipesFood(allProducts);
     };
     recipesFoods();
-  }, []);
-
+  }, []); // break line
   useEffect(() => {
     const recipesDrinks = async () => {
       const request = await fetch(ApiDrink);
       const response = await request.json();
-      const allProducts = response.drinks
-        .filter((drink, index) => index < TWELVE && drink);
+      const allProducts = response.drinks.filter((_drink, index) => index < TWELVE);
       setRecipesDrink(allProducts);
     };
     recipesDrinks();
-  }, []);
-
+  }, []); // break line
   useEffect(() => {
     const listFiltersFood = async () => {
       const request = await fetch(ApiListFood);
       const response = await request.json();
-      const filterByFoods = response.meals
-        .filter((foodCategory, index) => index < FIVE && foodCategory);
-      setListFood(filterByFoods);
+      const filterFood = response.meals.filter((_foodCategory, index) => index < FIVE);
+      setListFood(filterFood);
     };
     listFiltersFood();
-  }, []);
-
+  }, []); // break line
   useEffect(() => {
     const listFiltersDrink = async () => {
       const request = await fetch(ApiListDrink);
       const response = await request.json();
-      const filterByDrinks = response.drinks
-        .filter((drinkCategory, index) => index < FIVE && drinkCategory);
-      setListDrink(filterByDrinks);
+      const filterDrink = response.drinks.filter((_drinkCategory, index) => index < FIVE);
+      setListDrink(filterDrink);
     };
     listFiltersDrink();
-  }, []);
-
+  }, []); // break line
   const handleCategory = async (categoryValue) => {
     const foodArray = ['Beef', 'Breakfast', 'Chicken', 'Dessert', 'Goat'];
-
     let allProducts = [];
     if (cards.length > 0 && category === categoryValue) {
       setCards([]);
@@ -168,25 +154,21 @@ export default function ContextProvider({ children }) {
           `https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryValue}`,
         );
         const responseFood = await request.json();
-        allProducts = responseFood.meals
-          .filter((food, index) => index < TWELVE && food);
+        allProducts = responseFood.meals.filter((_food, index) => index < TWELVE);
       } else {
         const request = await fetch(
           `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${categoryValue}`,
         );
         const responseDrink = await request.json();
-        allProducts = responseDrink.drinks
-          .filter((drink, index) => index < TWELVE && drink);
+        allProducts = responseDrink.drinks.filter((_drink, index) => index < TWELVE);
       }
       setCategory(categoryValue);
       setCards(allProducts);
     }
-  };
-
+  }; // break line
   const handleAllCategories = () => {
     setAllCategories(!allCategories);
-  };
-
+  }; // break line
   useEffect(() => {
     let recipeID = '';
     const foodDetails = async () => {
@@ -201,17 +183,34 @@ export default function ContextProvider({ children }) {
         const slicedFoodMeasurements = foodValues.slice(TWENTY_NINE, FOURTY_NINE);
         setFoodIngredients(slicedFoodIngredients);
         setFoodIngredientsMeasurement(slicedFoodMeasurements);
+        const requestRecommendation = await fetch(ApiDrink);
+        const responseRecommendation = await requestRecommendation.json();
+        const allRecommendation = responseRecommendation.drinks.filter(
+          (_drink, index) => index < SIX,
+        );
+        setDrinkRecommendation(allRecommendation);
       } else if (pathname.includes('/drinks')
       && (pathname.length === THIRTEEN || pathname.length === FOURTEEN)) {
         recipeID = pathname.replace('/drinks/', '');
         const request = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${recipeID}`);
         const response = await request.json();
         setDrinkDetail(response);
+        const drinkArray = response.drinks[0];
+        const drinkValues = Object.values(drinkArray);
+        const slicedDrinksIngredients = drinkValues.slice(SEVENTEEN, THIRTY_TWO);
+        const slicedDrinksMeasurements = drinkValues.slice(THIRTY_TWO, FOURTY_SEVEN);
+        setDrinkIngredients(slicedDrinksIngredients);
+        setDrinkIngredientsMeasurement(slicedDrinksMeasurements);
+        const requestRecommendation = await fetch(ApiFoods);
+        const responseRecommendation = await requestRecommendation.json();
+        const allRecommendation = responseRecommendation.meals.filter(
+          (_food, index) => index < SIX,
+        );
+        setFoodRecommendation(allRecommendation);
       }
     };
     foodDetails();
-  }, [pathname]);
-
+  }, [pathname]); // break line
   const contextValue = {
     handleInput,
     handleLogin,
@@ -234,8 +233,11 @@ export default function ContextProvider({ children }) {
     drinkDetail,
     foodIngredients,
     foodIngredientsMeasurement,
-  };
-
+    drinkRecommendation,
+    drinkIngredients,
+    drinkIngredientsMeasurement,
+    foodRecommendation,
+  }; // break line
   return (
     <Context.Provider value={ contextValue }>
       { children }

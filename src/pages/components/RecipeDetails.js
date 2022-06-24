@@ -1,48 +1,99 @@
 import React, { useContext } from 'react';
 import Context from '../../Context/Context';
-// import { Link } from 'react-router-dom';
+import RecipeCard from './RecipeCard';
 
-function Explore() {
-  const { foodDetail, foodIngredients, foodIngredientsMeasurement } = useContext(Context);
+function RecipeDetails({ context }) {
+  const {
+    foodDetail,
+    foodIngredients,
+    foodIngredientsMeasurement,
+    drinkRecommendation,
+    drinkDetail,
+    drinkIngredients,
+    drinkIngredientsMeasurement,
+    foodRecommendation,
+  } = useContext(Context);
   const { meals } = foodDetail;
-  console.log(meals);
-  // V imagem -> strMealThumb
-  // V titulo -> strMeal
-  // V categoria (alcoólico) -> strCategory
-  // V lista de ingredientes
-  // V instruções -> strInstructions
-  // V vídeo (somente comida) -> strYoutube
-  // recomendações
+  const { drinks } = drinkDetail;
 
-  return (Object.entries(foodDetail).length > 0 && (
-    <div>
-      <img
-        src={ meals[0].strMealThumb }
-        alt="Foto da comida"
-        data-testid="recipe-photo"
-      />
-      <h1 data-testid="recipe-title">{ meals[0].strMeal }</h1>
-      <p data-testid="recipe-category">{ meals[0].strCategory }</p>
-      <ul>
-        { foodIngredients.filter((ingredient) => ingredient !== '')
-          .map((ingredientFiltered, index) => (
-            <li
-              key={ `${ingredientFiltered}-${index}` }
-              data-testid={ `${index}-ingredient-name-and-measure` }
-            >
-              { `${ingredientFiltered} - ${foodIngredientsMeasurement[index]}` }
-            </li>
-          )) }
-      </ul>
-      <p data-testid="instructions">{ meals[0].strInstructions }</p>
-      <iframe
-        src={ meals[0].strYoutube.replace('watch?v=', 'embed/') } // https://stackoverflow.com/questions/25661182/embed-youtube-video-refused-to-display-in-a-frame-because-it-set-x-frame-opti
-        title="video"
-        data-testid="video"
-      />
-    </div>
-  )
-  );
+  const renderFoodDetail = Object.entries(foodDetail).length > 0
+    && (
+      <div>
+        <img
+          src={ meals[0].strMealThumb }
+          alt="Foto da comida"
+          data-testid="recipe-photo"
+        />
+        <h1 data-testid="recipe-title">{ meals[0].strMeal }</h1>
+        <p data-testid="recipe-category">{ meals[0].strCategory }</p>
+        <ul>
+          { foodIngredients
+            .filter((ingredient) => ingredient !== '' && ingredient !== null)
+            .map((ingredientFiltered, index) => (
+              <li
+                key={ `${ingredientFiltered}-${index}` }
+                data-testid={ `${index}-ingredient-name-and-measure` }
+              >
+                { `${ingredientFiltered} - ${foodIngredientsMeasurement[index]}` }
+              </li>
+            )) }
+        </ul>
+        <p data-testid="instructions">{ meals[0].strInstructions }</p>
+        <iframe
+          src={ meals[0].strYoutube.replace('watch?v=', 'embed/') } // https://stackoverflow.com/questions/25661182/embed-youtube-video-refused-to-display-in-a-frame-because-it-set-x-frame-opti
+          title="video"
+          data-testid="video"
+        />
+        <p>Recomendações:</p>
+        { drinkRecommendation.map((drink, index) => (
+          <div key={ index } data-testid={ `${index}-recomendation-card` }>
+            <RecipeCard index={ index } drink={ drink } />
+          </div>
+        )) }
+      </div>
+    );
+
+  const renderDrinkDetail = Object.entries(drinkDetail).length > 0
+    && (
+      <div>
+        <img
+          src={ drinks[0].strDrinkThumb }
+          alt="Foto da bebida"
+          data-testid="recipe-photo"
+        />
+        <h1 data-testid="recipe-title">{ drinks[0].strDrink }</h1>
+        <p data-testid="recipe-category">{ drinks[0].strCategory }</p>
+        <p data-testid="recipe-category">{ drinks[0].strAlcoholic }</p>
+        <ul>
+          { drinkIngredients
+            .filter((ingredient) => ingredient !== '' && ingredient !== null)
+            .map((ingredientFiltered, index) => (
+              <li
+                key={ `${ingredientFiltered}-${index}` }
+                data-testid={ `${index}-ingredient-name-and-measure` }
+              >
+                { `${ingredientFiltered} - ${drinkIngredientsMeasurement[index]}` }
+              </li>
+            )) }
+        </ul>
+        <p data-testid="instructions">{ drinks[0].strInstructions }</p>
+        <p>Recomendações:</p>
+        {
+          foodRecommendation.map((food, index) => (
+            <div key={ index } data-testid={ `${index}-recomendation-card` }>
+              <RecipeCard index={ index } food={ food } />
+            </div>
+          ))
+        }
+      </div>
+    );
+
+  if (context === 'listFoods') {
+    return renderFoodDetail;
+  }
+  if (context === 'listDrinks') {
+    return renderDrinkDetail;
+  }
 }
 
-export default Explore;
+export default RecipeDetails;
