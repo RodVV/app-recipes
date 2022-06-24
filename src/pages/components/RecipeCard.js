@@ -2,36 +2,35 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-function RecipeCard({ index, food, drink }) {
+function RecipeCard({ index, food, drink, datatestid, detail }) {
   if (food !== undefined) {
     const { strMealThumb, strMeal, idMeal } = food;
     return (
-      <Link to={ `/foods/${idMeal}` }>
-        <div data-testid={ `${index}-recipe-card` }>
+      <div data-testid={ `${index}-recipe-card` }>
+        <Link to={ `/foods/${idMeal}` }>
           <img
             data-testid={ `${index}-card-img` }
             src={ strMealThumb }
             alt="comida bonita"
           />
-          <p data-testid={ `${index}-card-name` }>{ strMeal }</p>
-        </div>
-      </Link>
-
+          <p data-testid={ detail ? datatestid : `${index}-card-name` }>{ strMeal }</p>
+        </Link>
+      </div>
     );
   }
   if (drink !== undefined) {
     const { strDrinkThumb, strDrink, idDrink } = drink;
     return (
-      <Link to={ `/drinks/${idDrink}` }>
-        <div data-testid={ `${index}-recipe-card` }>
+      <div data-testid={ `${index}-recipe-card` }>
+        <Link to={ `/drinks/${idDrink}` }>
           <img
             data-testid={ `${index}-card-img` }
             src={ strDrinkThumb }
             alt="comida bonita"
           />
-          <p data-testid={ `${index}-card-name` }>{ strDrink }</p>
-        </div>
-      </Link>
+          <p data-testid={ detail ? datatestid : `${index}-card-name` }>{ strDrink }</p>
+        </Link>
+      </div>
     );
   }
 }
@@ -40,6 +39,8 @@ RecipeCard.propTypes = {
   index: PropTypes.number.isRequired,
   food: PropTypes.objectOf(PropTypes.any),
   drink: PropTypes.objectOf(PropTypes.any),
+  datatestid: PropTypes.string.isRequired,
+  detail: PropTypes.bool.isRequired,
 };
 
 RecipeCard.defaultProps = {
