@@ -9,16 +9,18 @@ import {
   setCategory,
   setAllCategory,
 } from '../../redux/slices/buttonFilter';
+import { FIVE, TWELVE, ApiListFood, ApiListDrink } from '../helpers/index';
 
 const ButtonFilter = ({ context }) => {
   // const {
   //   listFood, listDrink, handleCategory, handleAllCategories,
   // } = useContext(Context);
   const buttonSelector = useSelector(({ buttonFilter }) => buttonFilter);
-  const { cards, listFood, listDrink, allCategory } = buttonSelector;
+  const { category, cards, listFood, listDrink, allCategory } = buttonSelector;
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log('set food aqui');
     const listFiltersFood = async () => {
       const request = await fetch(ApiListFood);
       const response = await request.json();
@@ -31,6 +33,7 @@ const ButtonFilter = ({ context }) => {
   }, []);
 
   useEffect(() => {
+    console.log('set drink aqui');
     const listFiltersDrink = async () => {
       const request = await fetch(ApiListDrink);
       const response = await request.json();
@@ -67,23 +70,24 @@ const ButtonFilter = ({ context }) => {
       }
       dispatch(setCategory(categoryValue));
       dispatch(setCards(allProducts));
+      dispatch(setAllCategory(false));
     }
   };
 
   return (
     <div>
       {(context === 'listFood' ? listFood : listDrink).map(
-        (category, index) => (
+        (cat, index) => (
           <button
             type="button"
-            name={ category.strCategory }
+            name={ cat.strCategory }
             key={ index }
-            data-testid={ `${category.strCategory}-category-filter` }
+            data-testid={ `${cat.strCategory}-category-filter` }
             onClick={ ({ target: { name } }) => {
               handleCategory(name);
             } }
           >
-            {category.strCategory}
+            {cat.strCategory}
           </button>
         ),
       )}

@@ -41,13 +41,13 @@ function Foods() {
         </div>
       )) }
       { (meals && cards.length === 0
-      && !allCategories) && meals.filter((_food, index) => index <= TWELVE)
+      && !allCategory) && meals.filter((_food, index) => index <= TWELVE)
         .map((filteredFood, filteredIndex) => (
           <div key={ filteredIndex }>
             <RecipeCard index={ filteredIndex } food={ filteredFood } />
           </div>
         )) }
-      { (cards.length > 0 && !allCategories) && cards.map((foodCategory, index) => (
+      { (cards.length > 0 && !allCategory) && cards.map((foodCategory, index) => (
         <div key={ index }>
           <RecipeCard index={ index } food={ foodCategory } />
         </div>
