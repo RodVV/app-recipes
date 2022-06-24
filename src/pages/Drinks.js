@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { ELEVEN } from './helpers';
+import { TWELVE } from './helpers';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Context from '../Context/Context';
@@ -15,28 +15,22 @@ function Drinks() {
     <div>
       <Header />
       <ButtonFilter context="listDrink" />
-      { ((!drinks && cards.length === 0)
-      || allCategories) && recipesDrink.map((drink, index) => (
+      { ((!drinks && cards.length === 0) || allCategories)
+      && recipesDrink.map((drink, index) => (
         <div key={ index }>
-          <RecipeCard
-            index={ index }
-            drink={ drink }
-          />
+          <RecipeCard index={ index } drink={ drink } />
         </div>
       )) }
       { (drinks && cards.length === 0 && !allCategories)
-      && drinks.filter((e, i) => i <= ELEVEN)
-        .map((e, i) => (
-          <div key={ i }>
-            <RecipeCard index={ i } drink={ e } />
+      && drinks.filter((_drink, index) => index < TWELVE)
+        .map((filteredDrink, filteredIndex) => (
+          <div key={ filteredIndex }>
+            <RecipeCard index={ filteredIndex } drink={ filteredDrink } />
           </div>
         )) }
       { (cards.length > 0 && !allCategories) && cards.map((drinksCategory, index) => (
         <div key={ index }>
-          <RecipeCard
-            index={ index }
-            drink={ drinksCategory }
-          />
+          <RecipeCard index={ index } drink={ drinksCategory } />
         </div>
       )) }
       <Footer />
