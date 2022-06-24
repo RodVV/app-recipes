@@ -8,8 +8,6 @@ import {
 import Context from './Context';
 
 export default function ContextProvider({ children }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [recipesFood, setRecipesFood] = useState([]);
   const [recipesDrink, setRecipesDrink] = useState([]);
   const [listFood, setListFood] = useState([]);
@@ -26,14 +24,6 @@ export default function ContextProvider({ children }) {
   const [drinkIngredientsMeasurement, setDrinkIngredientsMeasurement] = useState([]);
   const [foodRecommendation, setFoodRecommendation] = useState([]);
 
-  const handleInput = ({ target: { name, value } }) => (
-    name === 'email' ? setEmail(value) : setPassword(value)
-  ); // break line
-  const handleLogin = () => {
-    localStorage.setItem('mealsToken', 1);
-    localStorage.setItem('cocktailsToken', 1);
-    localStorage.setItem('user', JSON.stringify({ email }));
-  }; // break line
   let API_URL = ''; // break line
   const [data, setData] = useState([]);
   const [search, setSearch] = useState('');
@@ -212,13 +202,10 @@ export default function ContextProvider({ children }) {
     };
     foodDetails();
   }, [pathname]); // break line
-  const contextValue = { handleInput,
-    handleLogin,
+  const contextValue = {
     handleSearch,
     handleRadio,
     searchButton,
-    email,
-    password,
     data,
     search,
     recipesFood,
