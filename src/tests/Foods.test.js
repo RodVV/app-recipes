@@ -11,18 +11,18 @@ describe('Testa a página de Drinks da aplicação', () => {
   it('Teste 1 - Testa se tem o título', () => {
     const { history } = renderWithRouter(<App />);
 
-    history.push('/drinks');
+    history.push('/foods');
 
-    const pageHeading = screen.getByText('Drinks');
+    const pageHeading = screen.getByText('Foods');
     expect(pageHeading).toBeInTheDocument();
   });
 
   it('Teste 2 - Testa se a página possui dois inputs do tipo image', () => {
     const { history } = renderWithRouter(<App />);
 
-    history.push('/drinks');
+    history.push('/foods');
 
-    const pageHeading = screen.getByText('Drinks');
+    const pageHeading = screen.getByText('Foods');
     const inputUserImage = screen.getByTestId('profile-top-btn');
     const inputSearchImage = screen.getByTestId(seachButton);
 
@@ -33,7 +33,7 @@ describe('Testa a página de Drinks da aplicação', () => {
 
   it('Teste 3 - Testa se a página apresenta 12 tipos de drinks', async () => {
     const { history } = renderWithRouter(<App />);
-    history.push('/drinks');
+    history.push('/foods');
     const limitImages = 12;
     const getImageCard = await screen.findAllByRole('img');
     expect(getImageCard.length).toBe(limitImages);
@@ -41,32 +41,32 @@ describe('Testa a página de Drinks da aplicação', () => {
 
   it('Teste 4 - Testa se a página possui 5 botões de filtro', async () => {
     const { history } = renderWithRouter(<App />);
-    history.push('/drinks');
+    history.push('/foods');
 
-    const buttonOrdinary = await screen.findByRole('button', {
-      name: 'Ordinary Drink',
+    const buttonBeef = await screen.findByRole('button', {
+      name: 'Beef',
     });
-    const buttonCocktail = await screen.findByRole('button', {
-      name: 'Cocktail',
+    const buttonBreakfast = await screen.findByRole('button', {
+      name: 'Breakfast',
     });
-    const buttonShake = await screen.findByRole('button', {
-      name: 'Shake',
+    const buttonChicken = await screen.findByRole('button', {
+      name: 'Chicken',
     });
-    const buttonOtherUnknown = await screen.findByRole('button', {
-      name: 'Other/Unknown',
+    const buttonDessert = await screen.findByRole('button', {
+      name: 'Dessert',
     });
-    const buttonCocoa = await screen.findByRole('button', {
-      name: 'Cocoa',
+    const buttonGoat = await screen.findByRole('button', {
+      name: 'Goat',
     });
     const buttonAll = await screen.findByRole('button', {
       name: 'All',
     });
 
-    expect(buttonOrdinary).toBeInTheDocument();
-    expect(buttonCocktail).toBeInTheDocument();
-    expect(buttonShake).toBeInTheDocument();
-    expect(buttonOtherUnknown).toBeInTheDocument();
-    expect(buttonCocoa).toBeInTheDocument();
+    expect(buttonBeef).toBeInTheDocument();
+    expect(buttonBreakfast).toBeInTheDocument();
+    expect(buttonChicken).toBeInTheDocument();
+    expect(buttonDessert).toBeInTheDocument();
+    expect(buttonGoat).toBeInTheDocument();
     expect(buttonAll).toBeInTheDocument();
   });
 
@@ -74,7 +74,7 @@ describe('Testa a página de Drinks da aplicação', () => {
     () => {
       const { history } = renderWithRouter(<App />);
 
-      history.push('/drinks');
+      history.push('/foods');
 
       const inputSearchImage = screen.getByTestId(seachButton);
 
@@ -101,18 +101,18 @@ describe('Testa a página de Drinks da aplicação', () => {
       const inputSearchImage = screen.getByTestId(seachButton);
 
       const filterC = [
-        'Casino',
-        'Caipirinha',
-        'Cherry Rum',
-        'Cuba Libre',
-        'Cuba Libra',
-        'Cafe Savoy',
-        'Cream Soda',
-        'Corn n Oil',
-        'Casa Blanca',
-        'Clover Club',
-        'Citrus Coke',
-        'Chicago Fizz',
+        'Chocolate Gateau',
+        'Chicken Enchilada Casserole',
+        'Cream Cheese Tart',
+        'Christmas Pudding Flapjack',
+        'Chicken Handi',
+        'Chicken Alfredo Primavera',
+        'Chicken Fajita Mac and Cheese',
+        'Cajun spiced fish tacos',
+        'Crock Pot Chicken Baked Tacos',
+        'Chicken Karaage',
+        'Coq au vin',
+        'Chilli prawn linguine',
       ];
       userEvent.click(inputSearchImage);
       const inputSearch = screen.getByTestId('search-input');
@@ -130,20 +130,22 @@ describe('Testa a página de Drinks da aplicação', () => {
     async () => {
       const { history } = renderWithRouter(<App />);
 
-      history.push('/drinks');
+      history.push('/foods');
 
       const inputSearchImage = screen.getByTestId(seachButton);
 
       const filterName = [
-        'Cuba Libre',
-        'Cuba Libra',
+        'Salmon Avocado Salad',
+        'Mediterranean Pasta Salad',
+        'Chicken Quinoa Greek Salad',
+        'Spicy North African Potato Salad',
       ];
 
       userEvent.click(inputSearchImage);
       const inputSearch = screen.getByTestId('search-input');
       const name = screen.getByTestId('name-search-radio');
       const button = screen.getByTestId('exec-search-btn');
-      userEvent.type(inputSearch, 'cuba');
+      userEvent.type(inputSearch, 'salad');
       userEvent.click(name);
       userEvent.click(button);
       const getImageCards = await screen.findAllByRole('img');
