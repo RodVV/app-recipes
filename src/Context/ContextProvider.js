@@ -175,15 +175,15 @@ export default function ContextProvider({ children }) {
         setFoodDetail(response);
         const foodArray = response.meals[0];
         const foodValues = Object.values(foodArray);
-        const slicedFoodIngredients = foodValues.slice(NINE, TWENTY_NINE);
+        const slicedFoodIngredients = foodValues.slice(NINE, TWENTY_NINE)
+          .filter((ingredient) => ingredient !== '' && ingredient !== null);
         const slicedFoodMeasurements = foodValues.slice(TWENTY_NINE, FOURTY_NINE);
         setFoodIngredients(slicedFoodIngredients);
         setFoodIngredientsMeasurement(slicedFoodMeasurements);
         const requestRecommendation = await fetch(ApiDrink);
         const responseRecommendation = await requestRecommendation.json();
-        const allRecommendation = responseRecommendation.drinks.filter(
-          (_drink, index) => index < SIX,
-        );
+        const allRecommendation = responseRecommendation.drinks
+          .filter((_drink, index) => index < SIX);
         setDrinkRecommendation(allRecommendation);
       } else if (pathname.includes('/drinks')
       && (pathname.length === THIRTEEN || pathname.length === FOURTEEN)) {
@@ -200,13 +200,14 @@ export default function ContextProvider({ children }) {
           if (e[0].includes('strIngredient')) drinkArrayIngredients.push(e[1]);
           else drinkArrayMeasurements.push(e[1]);
         });
-        setDrinkIngredients(drinkArrayIngredients);
+        const slicedDrinkArrayIngredients = drinkArrayIngredients
+          .filter((ingred) => ingred !== '' && ingred !== null);
+        setDrinkIngredients(slicedDrinkArrayIngredients);
         setDrinkIngredientsMeasurement(drinkArrayMeasurements);
         const requestRecommendation = await fetch(ApiFoods);
         const responseRecommendation = await requestRecommendation.json();
-        const allRecommendation = responseRecommendation.meals.filter(
-          (_food, index) => index < SIX,
-        );
+        const allRecommendation = responseRecommendation.meals
+          .filter((_food, index) => index < SIX);
         setFoodRecommendation(allRecommendation);
       }
     };
