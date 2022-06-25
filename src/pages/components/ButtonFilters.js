@@ -12,9 +12,6 @@ import {
 import { FIVE, TWELVE, ApiListFood, ApiListDrink } from '../helpers/index';
 
 const ButtonFilter = ({ context }) => {
-  // const {
-  //   listFood, listDrink, handleCategory, handleAllCategories,
-  // } = useContext(Context);
   const buttonSelector = useSelector(({ buttonFilter }) => buttonFilter);
   const { category, cards, listFood, listDrink, allCategory } = buttonSelector;
   const dispatch = useDispatch();

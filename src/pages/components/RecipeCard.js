@@ -19,7 +19,6 @@ function RecipeCard({ index, food, drink, datatestid, detail }) {
     );
   }
   if (drink !== undefined) {
-    console.log(drink);
     const { strDrinkThumb, strDrink, idDrink } = drink;
     return (
       <div data-testid={ `${index}-recipe-card` }>

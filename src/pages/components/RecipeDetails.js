@@ -1,20 +1,27 @@
-import React, { useContext } from 'react';
-import Context from '../../Context/Context';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import '../../App.css';
 import RecipeCard from './RecipeCard';
 import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 
 function RecipeDetails({ context }) {
+  const foodDetailsSlice = useSelector(({ foodDetail }) => foodDetail);
   const {
     foodDetail,
     foodIngredients,
     foodIngredientsMeasurement,
     drinkRecommendation,
+  } = foodDetailsSlice;
+
+  const drinkDetailsSlice = useSelector(({ drinkDetail }) => drinkDetail);
+  const {
     drinkDetail,
     drinkIngredients,
     drinkIngredientsMeasurement,
     foodRecommendation,
-  } = useContext(Context);
+  } = drinkDetailsSlice;
+
   const { meals } = foodDetail;
   const { drinks } = drinkDetail;
 
@@ -54,7 +61,7 @@ function RecipeDetails({ context }) {
         </ul>
         <p data-testid="instructions">{ meals[0].strInstructions }</p>
         <iframe
-          src={ meals[0].strYoutube.replace('watch?v=', 'embed/') } // https://stackoverflow.com/questions/25661182/embed-youtube-video-refused-to-display-in-a-frame-because-it-set-x-frame-opti
+          src={ meals[0].strYoutube.replace('watch?v=', 'embed/') } // https://stackoverflow.com/questions/25661182/embed-youtube-video-refused-to-display-in-a-frame-because-it-fx-frame-opti
           title="video"
           data-testid="video"
         />
@@ -72,6 +79,7 @@ function RecipeDetails({ context }) {
         <button
           type="button"
           data-testid="start-recipe-btn"
+          className="recipe-btn"
         >
           Start Recipe
         </button>
@@ -127,6 +135,7 @@ function RecipeDetails({ context }) {
           </div>
         )) }
         <button
+          className="recipe-btn"
           type="button"
           data-testid="start-recipe-btn"
         >

@@ -21,7 +21,6 @@ function Drinks() {
     const listFiltersDrink = async () => {
       const request = await fetch(ApiDrink);
       const response = await request.json();
-      console.log(response, 'opa');
       const filterDrink = response.drinks.filter(
         (_drinkCategory, index) => index < TWELVE,
       );
@@ -45,14 +44,11 @@ function Drinks() {
         && !allCategory
         && drinks
           .filter((_drink, index) => index < TWELVE)
-          .map((filteredDrink, filteredIndex) => {
-            console.log(filteredDrink);
-            return (
-              <div key={ filteredIndex }>
-                <RecipeCard index={ filteredIndex } drink={ filteredDrink } />
-              </div>
-            );
-          })}
+          .map((filteredDrink, filteredIndex) => (
+            <div key={ filteredIndex }>
+              <RecipeCard index={ filteredIndex } drink={ filteredDrink } />
+            </div>
+          ))}
       {cards.length > 0
         && !allCategory
         && cards.map((drinksCategory, index) => (
