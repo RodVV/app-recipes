@@ -14,7 +14,6 @@ function Foods() {
   const foodSelector = useSelector(({ foodSlice }) => (foodSlice));
   const searchSelector = useSelector(({ search }) => (search));
   const { meals } = searchSelector.data;
-  // const { data, recipesFood, cards, allCategories } = useContext(Context);
   const { initialMeals } = foodSelector;
   const buttonSelector = useSelector(({ buttonFilter }) => buttonFilter);
   const { cards, allCategory } = buttonSelector;
@@ -25,7 +24,6 @@ function Foods() {
       const response = await request.json();
       const allProducts = response.meals.filter((_food, index) => index < TWELVE);
       dispatch(setInitialMeals(allProducts));
-      console.log(initialMeals);
     };
     recipesFoods();
   }, []);

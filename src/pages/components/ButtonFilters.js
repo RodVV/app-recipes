@@ -20,7 +20,6 @@ const ButtonFilter = ({ context }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log('set food aqui');
     const listFiltersFood = async () => {
       const request = await fetch(ApiListFood);
       const response = await request.json();
@@ -33,7 +32,6 @@ const ButtonFilter = ({ context }) => {
   }, []);
 
   useEffect(() => {
-    console.log('set drink aqui');
     const listFiltersDrink = async () => {
       const request = await fetch(ApiListDrink);
       const response = await request.json();
