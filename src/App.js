@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import ContextProvider from './Context/ContextProvider';
+// import ContextProvider from './Context/ContextProvider';
 import Login from './pages/Login';
 import Foods from './pages/Foods';
 import Drinks from './pages/Drinks';
@@ -21,39 +21,37 @@ import NotFound from './pages/NotFound';
 
 function App() {
   return (
-    <ContextProvider>
-      <Switch>
-        <Route exact path="/" component={ Login } />
-        <Route exact path="/foods" component={ Foods } />
-        <Route exact path="/drinks" component={ Drinks } />
-        <Route exact path="/foods/:id" component={ FoodDetails } />
-        <Route exact path="/drinks/:id" component={ DrinkDetails } />
-        <Route path="/foods/:id/in-progress" component={ FoodsInProgress } />
-        <Route path="/drinks/:id/in-progress" component={ DrinksInProgress } />
-        <Route exact path="/explore" component={ Explore } />
-        <Route exact path="/explore/foods" component={ ExploreFoods } />
-        <Route exact path="/explore/drinks" component={ ExploreDrinks } />
-        <Route
-          exact
-          path="/explore/foods/ingredients"
-          component={ ExploreFoodsByIngredients }
-        />
-        <Route
-          exact
-          path="/explore/drinks/ingredients"
-          component={ ExploreDrinksByIngredients }
-        />
-        <Route
-          exact
-          path="/explore/foods/nationalities"
-          component={ ExploreFoodsByNationality }
-        />
-        <Route path="/profile" component={ Profile } />
-        <Route path="/done-recipes" component={ DoneRecipes } />
-        <Route path="/favorite-recipes" component={ FavoriteRecipes } />
-        <Route route="*" component={ NotFound } />
-      </Switch>
-    </ContextProvider>
+    // <ContextProvider>
+    <Switch>
+      <Route exact path="/" component={ Login } />
+      <Route exact path="/foods" component={ Foods } />
+      <Route exact path="/drinks" component={ Drinks } />
+      <Route path="/foods/:id" component={ FoodDetails } />
+      <Route path="/drinks/:id" component={ DrinkDetails } />
+      <Route exact path="/explore" component={ Explore } />
+      <Route exact path="/explore/foods" component={ ExploreFoods } />
+      <Route exact path="/explore/drinks" component={ ExploreDrinks } />
+      <Route
+        exact
+        path="/explore/foods/ingredients"
+        component={ ExploreFoodsByIngredients }
+      />
+      <Route
+        exact
+        path="/explore/drinks/ingredients"
+        component={ ExploreDrinksByIngredients }
+      />
+      <Route
+        exact
+        path="/explore/foods/nationalities"
+        component={ ExploreFoodsByNationality }
+      />
+      <Route path="/profile" component={ Profile } />
+      <Route path="/done-recipes" component={ DoneRecipes } />
+      <Route path="/favorite-recipes" component={ FavoriteRecipes } />
+      <Route route="*" component={ NotFound } />
+    </Switch>
+    // </ContextProvider>
   );
 }
 

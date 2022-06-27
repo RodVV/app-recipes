@@ -8,8 +8,6 @@ import {
 import Context from './Context';
 
 export default function ContextProvider({ children }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [recipesFood, setRecipesFood] = useState([]);
   const [recipesDrink, setRecipesDrink] = useState([]);
   const [listFood, setListFood] = useState([]);
@@ -26,14 +24,8 @@ export default function ContextProvider({ children }) {
   const [drinkIngredientsMeasurement, setDrinkIngredientsMeasurement] = useState([]);
   const [foodRecommendation, setFoodRecommendation] = useState([]);
 
-  const handleInput = ({ target: { name, value } }) => (
-    name === 'email' ? setEmail(value) : setPassword(value)
-  ); // break line
-  const handleLogin = () => {
-    localStorage.setItem('mealsToken', 1);
-    localStorage.setItem('cocktailsToken', 1);
-    localStorage.setItem('user', JSON.stringify({ email }));
-  }; // break line
+  // ---------------------
+
   let API_URL = ''; // break line
   const [data, setData] = useState([]);
   const [search, setSearch] = useState('');
@@ -102,7 +94,9 @@ export default function ContextProvider({ children }) {
       };
       fetchAPI();
     }
-  }; // break line
+  };
+
+  // break line ---------------------------------------
   useEffect(() => {
     const recipesFoods = async () => {
       const request = await fetch(ApiFoods);
@@ -111,7 +105,9 @@ export default function ContextProvider({ children }) {
       setRecipesFood(allProducts);
     };
     recipesFoods();
-  }, []); // break line
+  }, []);
+
+  // break line
   useEffect(() => {
     const recipesDrinks = async () => {
       const request = await fetch(ApiDrink);
@@ -120,7 +116,9 @@ export default function ContextProvider({ children }) {
       setRecipesDrink(allProducts);
     };
     recipesDrinks();
-  }, []); // break line
+  }, []);
+
+  // break line
   useEffect(() => {
     const listFiltersFood = async () => {
       const request = await fetch(ApiListFood);
@@ -129,7 +127,9 @@ export default function ContextProvider({ children }) {
       setListFood(filterFood);
     };
     listFiltersFood();
-  }, []); // break line
+  }, []);
+
+  // break line
   useEffect(() => {
     const listFiltersDrink = async () => {
       const request = await fetch(ApiListDrink);
@@ -138,7 +138,9 @@ export default function ContextProvider({ children }) {
       setListDrink(filterDrink);
     };
     listFiltersDrink();
-  }, []); // break line
+  }, []);
+
+  // break line
   const handleCategory = async (categoryValue) => {
     const foodArray = ['Beef', 'Breakfast', 'Chicken', 'Dessert', 'Goat'];
     let allProducts = [];
@@ -161,10 +163,12 @@ export default function ContextProvider({ children }) {
       setCategory(categoryValue);
       setCards(allProducts);
     }
-  }; // break line
+  };
+  // break line
   const handleAllCategories = () => {
     setAllCategories(!allCategories);
-  }; // break line
+  };
+  // break line
   useEffect(() => {
     let recipeID = '';
     const foodDetails = async () => {
@@ -213,13 +217,10 @@ export default function ContextProvider({ children }) {
     };
     foodDetails();
   }, [pathname]); // break line
-  const contextValue = { handleInput,
-    handleLogin,
+  const contextValue = {
     handleSearch,
     handleRadio,
     searchButton,
-    email,
-    password,
     data,
     search,
     recipesFood,
