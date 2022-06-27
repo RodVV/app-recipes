@@ -7,7 +7,7 @@ import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 
 const recipesInProgress = JSON.parse(localStorage.getItem('inProgressRecipes'))
-  || { meals: {}, cocktails: {} };
+   || { meals: {}, cocktails: {} };
 
 function RecipeDetails({ context }) {
   const foodDetailsSlice = useSelector(({ foodDetail }) => foodDetail);
@@ -32,30 +32,30 @@ function RecipeDetails({ context }) {
   const { pathname } = useLocation();
   const foodsID = pathname.replace('/foods/', '');
   const drinksID = pathname.replace('/drinks/', '');
-  const [teste, setTeste] = useState(false); // setar comida em progresso (estado para renderizar a página)
+  const [teste] = useState(false); // setar comida em progresso (estado para renderizar a página)
   const [alert, setAlert] = useState(''); // setar link da página no clipboard (estado para renderizar o link copied)
 
-  const handleFunction = () => { // função de start recipe
-    if (pathname.includes('/foods/')) {
-      localStorage.setItem('inProgressRecipes',
-        JSON.stringify(
-          {
-            ...recipesInProgress,
-            meals: { ...recipesInProgress.meals, [foodsID]: foodIngredients },
-          },
-        ));
-      setTeste(!teste);
-    } else if (pathname.includes('/drinks/')) {
-      localStorage.setItem('inProgressRecipes',
-        JSON.stringify(
-          {
-            ...recipesInProgress,
-            cocktails: { ...recipesInProgress.cocktails, [drinksID]: drinkIngredients },
-          },
-        ));
-      setTeste(!teste);
-    }
-  };
+  // const handleFunction = () => { // função de start recipe
+  //   if (pathname.includes('/foods/')) {
+  //     localStorage.setItem('inProgressRecipes',
+  //       JSON.stringify(
+  //         {
+  //           ...recipesInProgress,
+  //           meals: { ...recipesInProgress.meals, [foodsID]: foodIngredients },
+  //         },
+  //       ));
+  //     setTeste(!teste);
+  //   } else if (pathname.includes('/drinks/')) {
+  //     localStorage.setItem('inProgressRecipes',
+  //       JSON.stringify(
+  //         {
+  //           ...recipesInProgress,
+  //           cocktails: { ...recipesInProgress.cocktails, [drinksID]: drinkIngredients },
+  //         },
+  //       ));
+  //     setTeste(!teste);
+  //   }
+  // };
 
   const renderFoodDetail = Object.entries(foodDetail).length > 0
     && (
@@ -132,7 +132,7 @@ function RecipeDetails({ context }) {
                 type="button"
                 data-testid="start-recipe-btn"
                 className="start-recipe-button"
-                onClick={ handleFunction }
+                // onClick={ handleFunction }
               >
                 Start Recipe
               </button>
@@ -214,7 +214,7 @@ function RecipeDetails({ context }) {
                 type="button"
                 data-testid="start-recipe-btn"
                 className="start-recipe-button"
-                onClick={ handleFunction }
+                // onClick={ handleFunction }
               >
                 Start Recipe
               </button>
