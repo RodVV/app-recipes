@@ -21,7 +21,6 @@ import NotFound from './pages/NotFound';
 
 function App() {
   return (
-    // <ContextProvider>
     <Switch>
       <Route exact path="/" component={ Login } />
       <Route exact path="/foods" component={ Foods } />
@@ -53,7 +52,6 @@ function App() {
       <Route path="/favorite-recipes" component={ FavoriteRecipes } />
       <Route route="*" component={ NotFound } />
     </Switch>
-    // </ContextProvider>
   );
 }
 
