@@ -37,7 +37,9 @@ function DrinkDetails() {
         if (e[0].includes('strIngredient')) drinkArrayIngredients.push(e[1]);
         else drinkArrayMeasurements.push(e[1]);
       });
-      dispatch(setDrinkIngredients(drinkArrayIngredients));
+      const slicedDrinkArrayIngredients = drinkArrayIngredients
+        .filter((ingred) => ingred !== '' && ingred !== null);
+      dispatch(setDrinkIngredients(slicedDrinkArrayIngredients));
       dispatch(setDrinkIngredientsMeasurement(drinkArrayMeasurements));
       const requestRecommendation = await fetch(ApiFoods);
       const responseRecommendation = await requestRecommendation.json();

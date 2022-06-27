@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
 import '../../App.css';
 import RecipeCard from './RecipeCard';
 import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
-import '../../App.css';
 
 const recipesInProgress = JSON.parse(localStorage.getItem('inProgressRecipes'))
   || { meals: {}, cocktails: {} };
