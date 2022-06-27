@@ -13,6 +13,7 @@ function Login() {
       ? dispatch(changeEmail(value))
       : dispatch(changePassword(value))
   );
+  // TESTE
 
   const handleLogin = () => {
     localStorage.setItem('mealsToken', 1);
