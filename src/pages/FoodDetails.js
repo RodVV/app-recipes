@@ -35,15 +35,15 @@ function FoodDetails() {
       dispatch(setFoodDetail(response));
       const foodArray = response.meals[0];
       const foodValues = Object.values(foodArray);
-      const slicedFoodIngredients = foodValues.slice(NINE, TWENTY_NINE);
+      const slicedFoodIngredients = foodValues.slice(NINE, TWENTY_NINE)
+        .filter((ingredient) => ingredient !== '' && ingredient !== null);
       const slicedFoodMeasurements = foodValues.slice(TWENTY_NINE, FOURTY_NINE);
       dispatch(setFoodIngredients(slicedFoodIngredients));
       dispatch(setFoodIngredientsMeasurement(slicedFoodMeasurements));
       const requestRecommendation = await fetch(ApiDrink);
       const responseRecommendation = await requestRecommendation.json();
-      const allRecommendation = responseRecommendation.drinks.filter(
-        (_drink, index) => index < SIX,
-      );
+      const allRecommendation = responseRecommendation.drinks
+        .filter((_drink, index) => index < SIX);
       dispatch(setDrinkRecommendation(allRecommendation));
     };
     foodDetails();
