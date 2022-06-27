@@ -118,7 +118,6 @@ describe('Testa a página de Drinks da aplicação', () => {
       const inputSearch = screen.getByTestId('search-input');
       const button = screen.getByTestId('exec-search-btn');
       const firstLetter = screen.getByTestId('first-letter-search-radio');
-      console.log(firstLetter);
       userEvent.type(inputSearch, 'c');
       userEvent.click(firstLetter);
       userEvent.click(button);
