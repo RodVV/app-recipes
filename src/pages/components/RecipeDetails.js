@@ -6,8 +6,8 @@ import RecipeCard from './RecipeCard';
 import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 
-// const recipesInProgress = JSON.parse(localStorage.getItem('inProgressRecipes'))
-//    || { meals: {}, cocktails: {} };
+const recipesInProgress = JSON.parse(localStorage.getItem('inProgressRecipes'))
+   || { meals: {}, cocktails: {} };
 
 function RecipeDetails({ context }) {
   const foodDetailsSlice = useSelector(({ foodDetail }) => foodDetail);
@@ -32,7 +32,7 @@ function RecipeDetails({ context }) {
   const { pathname } = useLocation();
   const foodsID = pathname.replace('/foods/', '');
   const drinksID = pathname.replace('/drinks/', '');
-  // const [teste] = useState(false); // setar comida em progresso (estado para renderizar a página)
+  const [teste] = useState(false); // setar comida em progresso (estado para renderizar a página)
   const [alert, setAlert] = useState(''); // setar link da página no clipboard (estado para renderizar o link copied)
 
   // const handleFunction = () => { // função de start recipe
