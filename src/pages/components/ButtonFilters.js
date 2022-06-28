@@ -26,7 +26,7 @@ const ButtonFilter = ({ context }) => {
       dispatch(setListFood(filterFood));
     };
     listFiltersFood();
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     const listFiltersDrink = async () => {
@@ -38,7 +38,7 @@ const ButtonFilter = ({ context }) => {
       dispatch(setListDrink(filterDrink));
     };
     listFiltersDrink();
-  }, []);
+  }, [dispatch]);
 
   const handleCategory = async (categoryValue) => {
     const foodArray = ['Beef', 'Breakfast', 'Chicken', 'Dessert', 'Goat'];

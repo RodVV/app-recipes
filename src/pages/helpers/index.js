@@ -20,11 +20,41 @@ const FOURTY_NINE = 49;
 
 const ApiFoods = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
 
+const ApiFoodIngredients = 'https://www.themealdb.com/api/json/v1/1/list.php?i=list';
+
 const ApiDrink = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+
+const ApiDrinkIngredients = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list';
 
 const ApiListFood = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
 
 const ApiListDrink = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
+
+const handleFoods = (foodsID, foodIngredients) => {
+  const recipesInProgress = JSON.parse(localStorage.getItem('inProgressRecipes'))
+  || { meals: {}, cocktails: {} };
+
+  localStorage.setItem('inProgressRecipes',
+    JSON.stringify(
+      {
+        ...recipesInProgress,
+        meals: { ...recipesInProgress.meals, [foodsID]: foodIngredients },
+      },
+    ));
+};
+
+const handleDrinks = (drinksID, drinkIngredients) => {
+  const recipesInProgress = JSON.parse(localStorage.getItem('inProgressRecipes'))
+  || { meals: {}, cocktails: {} };
+
+  localStorage.setItem('inProgressRecipes',
+    JSON.stringify(
+      {
+        ...recipesInProgress,
+        cocktails: { ...recipesInProgress.cocktails, [drinksID]: drinkIngredients },
+      },
+    ));
+};
 
 export {
   verifyEmail,
@@ -40,4 +70,9 @@ export {
   ApiFoods,
   ApiDrink,
   ApiListFood,
-  ApiListDrink };
+  ApiListDrink,
+  ApiFoodIngredients,
+  ApiDrinkIngredients,
+  handleFoods,
+  handleDrinks,
+};

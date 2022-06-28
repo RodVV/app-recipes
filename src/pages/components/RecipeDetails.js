@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import FoodDetails from './FoodDetails';
+import DrinkDetails from './DrinkDetails';
 import '../../App.css';
 import RecipeCard from './RecipeCard';
 import shareIcon from '../../images/shareIcon.svg';
@@ -10,228 +11,45 @@ function RecipeDetails({ context }) {
   const foodDetailsSlice = useSelector(({ foodDetail }) => foodDetail);
   const {
     foodDetail,
-    foodIngredients,
-    foodIngredientsMeasurement,
-    drinkRecommendation,
   } = foodDetailsSlice;
 
-  // const drinkDetailsSlice = useSelector(({ drinkDetail }) => drinkDetail);
-  // const {
-  //   drinkDetail,
-  //   drinkIngredients,
-  //   drinkIngredientsMeasurement,
-  //   foodRecommendation,
-  // } = drinkDetailsSlice;
+  const drinkDetailsSlice = useSelector(({ drinkDetail }) => drinkDetail);
+  const {
+    drinkDetail,
+  } = drinkDetailsSlice;
 
-  // const { meals } = foodDetail;
-  // const { drinks } = drinkDetail;
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [unfavorite, setUnfavorite] = useState(false);
+  const [localStorageS, setLocalStorageS] = useState([{
+    id: '',
+    type: '',
+    nationality: '',
+    category: '',
+    alcoholicOrNot: '',
+    name: '',
+    image: '',
+  }]);
 
-  const { pathname } = useLocation();
-  const foodsID = pathname.replace('/foods/', '');
-  const drinksID = pathname.replace('/drinks/', '');
-  const [inProgress, setInProgress] = useState(false); // setar comida em progresso (estado para renderizar a página)
-  const [alert, setAlert] = useState(''); // setar link da página no clipboard (estado para renderizar o link copied)
-
-  const recipesInProgress = (JSON.parse(localStorage.getItem('inProgressRecipes')))
-  || { meals: {}, cocktails: {} };
-
-  const handleFunction = () => { // função de start recipe
-    if (pathname.includes('/foods/')) {
-      localStorage.setItem('inProgressRecipes',
-        JSON.stringify(
-          {
-            cocktails: { ...recipesInProgress.cocktails },
-            meals: { ...recipesInProgress.meals, [foodsID]: [] },
-          },
-        ));
-      setInProgress(!inProgress);
-    } else if (pathname.includes('/drinks/')) {
-      localStorage.setItem('inProgressRecipes',
-        JSON.stringify(
-          {
-            cocktails: { ...recipesInProgress.cocktails, [drinksID]: [] },
-            meals: { ...recipesInProgress.meals },
-          },
-        ));
-      setInProgress(!inProgress);
-    }
-  };
+  useEffect(() => {
+    setLocalStorageS(JSON.parse(localStorage.getItem('favoriteRecipes')) || []);
+  }, [isFavorite, unfavorite]);
 
   const renderFoodDetail = Object.entries(foodDetail).length > 0
     && (
-      <div>
-        <img
-          src={ foodDetail.meals[0].strMealThumb }
-          alt="Foto da comida"
-          data-testid="recipe-photo"
-        />
-        <input
-          data-testid="share-btn"
-          type="image"
-          src={ shareIcon }
-          alt="Botão de compartilhar"
-          onClick={ () => {
-            navigator.clipboard.writeText(`http://localhost:3000${pathname}`);
-            setAlert('Link copied!');
-          } }
-        />
-        <input
-          data-testid="favorite-btn"
-          type="image"
-          src={ whiteHeartIcon }
-          alt="Botão de favoritar"
-        />
-        <p>{alert}</p>
-        <h1 data-testid="recipe-title">{ foodDetail.meals[0].strMeal }</h1>
-        <p data-testid="recipe-category">{ foodDetail.meals[0].strCategory }</p>
-        <ul>
-          { foodIngredients
-            .map((ingredientFiltered, index) => (
-              <li
-                key={ `${ingredientFiltered}-${index}` }
-                data-testid={ `${index}-ingredient-name-and-measure` }
-              >
-                { `${ingredientFiltered} - ${foodIngredientsMeasurement[index]}` }
-              </li>
-            )) }
-        </ul>
-        <p data-testid="instructions">{ foodDetail.meals[0].strInstructions }</p>
-        <iframe
-          src={ foodDetail.meals[0].strYoutube.replace('watch?v=', 'embed/') } // https://stackoverflow.com/questions/25661182/embed-youtube-video-refused-to-display-in-a-frame-because-it-fx-frame-opti
-          title="video"
-          data-testid="video"
-        />
-        <p>Recomendações:</p>
-        <div className="recommendation">
-          { drinkRecommendation.map((drink, index) => (
-            <div key={ index } data-testid={ `${index}-recomendation-card` }>
-              <RecipeCard
-                index={ index }
-                drink={ drink }
-                datatestid={ `${index}-recomendation-title` }
-                detail
-              />
-            </div>
-          )) }
-        </div>
-        {/* <Link to={ `/foods/${foodsID}/in-progress` }>
-          <button
-            type="button"
-            data-testid="start-recipe-btn"
-            className="start-recipe-button"
-            onClick={ handleFunction }
-          >
-            Start Recipe
-          </button>
-        </Link> */}
-        { inProgress || (recipesInProgress.meals
-          && Object.keys(recipesInProgress.meals).includes(foodsID)) ? (
-            <Link to={ `/foods/${foodsID}/in-progress` }>
-              <button
-                type="button"
-                data-testid="start-recipe-btn"
-                className="start-recipe-button"
-              >
-                Continue Recipe
-              </button>
-            </Link>
-          )
-          : (
-            <Link to={ `/foods/${foodsID}/in-progress` }>
-              <button
-                type="button"
-                data-testid="start-recipe-btn"
-                className="start-recipe-button"
-                onClick={ handleFunction }
-              >
-                Start Recipe
-              </button>
-            </Link>
-          ) }
-      </div>
-    );
+      <FoodDetails
+        localStorageS={ localStorageS }
+        setIsFavorite={ setIsFavorite }
+        setUnfavorite={ setUnfavorite }
+      />);
 
-  // const renderDrinkDetail = Object.entries(drinkDetail).length > 0
-  //   && (
-  //     <div>
-  //       <img
-  //         src={ drinks[0].strDrinkThumb }
-  //         alt="Foto da bebida"
-  //         data-testid="recipe-photo"
-  //       />
-  //       <input
-  //         data-testid="share-btn"
-  //         type="image"
-  //         src={ shareIcon }
-  //         alt="Botão de compartilhar"
-  //         onClick={ () => {
-  //           navigator.clipboard.writeText(`http://localhost:3000${pathname}`);
-  //           setAlert('Link copied!');
-  //         } }
-  //       />
-  //       {alert}
-  //       <input
-  //         data-testid="favorite-btn"
-  //         type="image"
-  //         src={ whiteHeartIcon }
-  //         alt="Botão de favoritar"
-  //       />
-  //       <h1 data-testid="recipe-title">{ drinks[0].strDrink }</h1>
-  //       <p data-testid="recipe-category">{ drinks[0].strCategory }</p>
-  //       <p data-testid="recipe-category">{ drinks[0].strAlcoholic }</p>
-  //       <ul>
-  //         { drinkIngredients
-  //           .map((filteredIngred, index) => (
-  //             <li
-  //               key={ `${filteredIngred}-${index}` }
-  //               data-testid={ `${index}-ingredient-name-and-measure` }
-  //             >
-  //               { drinkIngredientsMeasurement[index] !== null
-  //                 ? `${filteredIngred} - ${drinkIngredientsMeasurement[index]}`
-  //                 : `${filteredIngred}` }
-  //             </li>
-  //           )) }
-  //       </ul>
-  //       <p data-testid="instructions">{ drinks[0].strInstructions }</p>
-  //       <p>Recomendações:</p>
-  //       <div className="recommendation">
-  //         { foodRecommendation.map((food, index) => (
-  //           <div key={ index } data-testid={ `${index}-recomendation-card` }>
-  //             <RecipeCard
-  //               index={ index }
-  //               food={ food }
-  //               datatestid={ `${index}-recomendation-title` }
-  //               detail
-  //             />
-  //           </div>
-  //         )) }
-  //       </div>
-  //       { inProgress || (recipesInProgress.cocktails
-  //         && Object.keys(recipesInProgress.cocktails).includes(drinksID)) ? (
-  //           <Link to={ `/drinks/${drinksID}/in-progress` }>
-  //             <button
-  //               type="button"
-  //               data-testid="start-recipe-btn"
-  //               className="start-recipe-button"
-  //             >
-  //               Continue Recipe
-  //             </button>
-  //           </Link>
-  //         )
-  //         : (
-  //           <Link to={ `/drinks/${drinksID}/in-progress` }>
-  //             <button
-  //               type="button"
-  //               data-testid="start-recipe-btn"
-  //               className="start-recipe-button"
-  //               // onClick={ handleFunction }
-  //             >
-  //               Start Recipe
-  //             </button>
-  //           </Link>
-  //         ) }
-  //     </div>
-  //   );
+  const renderDrinkDetail = Object.entries(drinkDetail).length > 0
+    && (
+      <DrinkDetails
+        localStorageS={ localStorageS }
+        setIsFavorite={ setIsFavorite }
+        setUnfavorite={ setUnfavorite }
+      />
+    );
 
   if (context === 'listFoods') {
     return renderFoodDetail;
