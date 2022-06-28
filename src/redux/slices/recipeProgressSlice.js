@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  cocktails: {},
-  meals: {},
+  cocktails: '',
+  meals: '',
 };
 
 export const recipeProgressSlice = createSlice({

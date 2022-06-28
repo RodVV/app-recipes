@@ -17,38 +17,43 @@ function FoodsInProgress() {
   const foodsID = pathname.replace('/foods/', '');
   const drinksID = pathname.replace('/drinks/', '');
   const [teste, setTeste] = useState(false); // setar comida em progresso (estado para renderizar a página)
+  const recipeProgressSlice = useSelector(({ recipeProgress }) => recipeProgress);
 
-  const recipesInProgress = JSON.parse(localStorage.getItem('inProgressRecipes'))
-  || { meals: {}, cocktails: {} };
+  // const recipesInProgress = (localStorage.getItem('inProgressRecipes'))
+  // || { meals: {}, cocktails: {} };
 
   useEffect(() => {
-    const handleFunction = () => { // função de start recipe
-      if (pathname.includes('/foods/')) {
-        localStorage.setItem('inProgressRecipes',
-          JSON.stringify(
-            {
-              ...recipesInProgress,
-              meals: { ...recipesInProgress.meals, [foodsID]: foodIngredients },
-            },
-          ));
-        setTeste(!teste);
-      } else if (pathname.includes('/drinks/')) {
-        localStorage.setItem('inProgressRecipes',
-          JSON.stringify(
-            {
-              ...recipesInProgress,
-              cocktails: { ...recipesInProgress.cocktails, [drinksID]: drinkIngredients },
-            },
-          ));
-        setTeste(!teste);
-      }
-    };
-    handleFunction();
+    localStorage.setItem('inProgressRecipes',
+      JSON.stringify(
+        recipeProgressSlice.meals,
+      ));
+  //   const handleFunction = () => { // função de start recipe
+  //     if (pathname.includes('/foods/')) {
+  //       localStorage.setItem('inProgressRecipes',
+  //         JSON.stringify(
+  //           {
+  //             ...recipesInProgress,
+  //             meals: { ...recipesInProgress.meals, [foodsID]: foodIngredients },
+  //           },
+  //         ));
+  //       setTeste(!teste);
+  //     } else if (pathname.includes('/drinks/')) {
+  //       localStorage.setItem('inProgressRecipes',
+  //         JSON.stringify(
+  //           {
+  //             ...recipesInProgress,
+  //             cocktails: { ...recipesInProgress.cocktails, [drinksID]: drinkIngredients },
+  //           },
+  //         ));
+  //       setTeste(!teste);
+  //     }
+  //   };
+  //   handleFunction();
   }, []);
 
   return (
     <div>
-      {recipeNotFinished.foodDetail.meals
+      {/* {recipeNotFinished.foodDetail.meals
       && recipeNotFinished.foodDetail.meals.map((recipe) => (
         <>
           <p
@@ -106,7 +111,8 @@ function FoodsInProgress() {
             Finish recipe
           </button>
         </>
-      ))}
+      ))} */}
+      heyo
     </div>
   );
 }

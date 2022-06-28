@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import '../../App.css';
 import RecipeCard from './RecipeCard';
 import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
+import { setMeals, setCocktails } from '../../redux/slices/recipeProgressSlice';
 
-const recipesInProgress = JSON.parse(localStorage.getItem('inProgressRecipes'))
-   || { meals: {}, cocktails: {} };
+// const recipesInProgress = localStorage.getItem('inProgressRecipes')
+//    || { meals: {}, cocktails: {} };
 
 function RecipeDetails({ context }) {
+  const dispatch = useDispatch();
   const foodDetailsSlice = useSelector(({ foodDetail }) => foodDetail);
   const {
     foodDetail,
@@ -26,8 +28,11 @@ function RecipeDetails({ context }) {
     foodRecommendation,
   } = drinkDetailsSlice;
 
-  const { meals } = foodDetail;
-  const { drinks } = drinkDetail;
+  // const recipeProgressSlice = useSelector(({ recipeProgress }) => recipeProgress);
+  // const { meals, cocktails } = recipeProgressSlice;
+
+  // const { meals } = foodDetail;
+  // const { drinks } = drinkDetail;
 
   const { pathname } = useLocation();
   const foodsID = pathname.replace('/foods/', '');
@@ -35,33 +40,29 @@ function RecipeDetails({ context }) {
   const [teste] = useState(false); // setar comida em progresso (estado para renderizar a página)
   const [alert, setAlert] = useState(''); // setar link da página no clipboard (estado para renderizar o link copied)
 
-  // const handleFunction = () => { // função de start recipe
-  //   if (pathname.includes('/foods/')) {
-  //     localStorage.setItem('inProgressRecipes',
-  //       JSON.stringify(
-  //         {
-  //           ...recipesInProgress,
-  //           meals: { ...recipesInProgress.meals, [foodsID]: foodIngredients },
-  //         },
-  //       ));
-  //     setTeste(!teste);
-  //   } else if (pathname.includes('/drinks/')) {
-  //     localStorage.setItem('inProgressRecipes',
-  //       JSON.stringify(
-  //         {
-  //           ...recipesInProgress,
-  //           cocktails: { ...recipesInProgress.cocktails, [drinksID]: drinkIngredients },
-  //         },
-  //       ));
-  //     setTeste(!teste);
-  //   }
-  // };
+  const handleFunction = () => { // função de start recipe
+    const idFood = foodDetail.meals[0].idMeal;
+    const foodObject = { [idFood]: [] };
+    if (pathname.includes('/foods/')) {
+      dispatch(setMeals(foodObject));
+      setTeste(!teste);
+    } else if (pathname.includes('/drinks/')) {
+      localStorage.setItem('inProgressRecipes',
+        JSON.stringify(
+          {
+            ...recipesInProgress,
+            cocktails: { ...recipesInProgress.cocktails, [drinksID]: drinkIngredients },
+          },
+        ));
+      setTeste(!teste);
+    }
+  };
 
   const renderFoodDetail = Object.entries(foodDetail).length > 0
     && (
       <div>
         <img
-          src={ meals[0].strMealThumb }
+          src={ foodDetail.meals[0].strMealThumb }
           alt="Foto da comida"
           data-testid="recipe-photo"
         />
@@ -82,8 +83,8 @@ function RecipeDetails({ context }) {
           alt="Botão de favoritar"
         />
         <p>{alert}</p>
-        <h1 data-testid="recipe-title">{ meals[0].strMeal }</h1>
-        <p data-testid="recipe-category">{ meals[0].strCategory }</p>
+        <h1 data-testid="recipe-title">{ foodDetail.meals[0].strMeal }</h1>
+        <p data-testid="recipe-category">{ foodDetail.meals[0].strCategory }</p>
         <ul>
           { foodIngredients
             .map((ingredientFiltered, index) => (
@@ -95,9 +96,9 @@ function RecipeDetails({ context }) {
               </li>
             )) }
         </ul>
-        <p data-testid="instructions">{ meals[0].strInstructions }</p>
+        <p data-testid="instructions">{ foodDetail.meals[0].strInstructions }</p>
         <iframe
-          src={ meals[0].strYoutube.replace('watch?v=', 'embed/') } // https://stackoverflow.com/questions/25661182/embed-youtube-video-refused-to-display-in-a-frame-because-it-fx-frame-opti
+          src={ foodDetail.meals[0].strYoutube.replace('watch?v=', 'embed/') } // https://stackoverflow.com/questions/25661182/embed-youtube-video-refused-to-display-in-a-frame-because-it-fx-frame-opti
           title="video"
           data-testid="video"
         />
@@ -114,7 +115,17 @@ function RecipeDetails({ context }) {
             </div>
           )) }
         </div>
-        { teste || (recipesInProgress.meals
+        <Link to={ `/foods/${foodsID}/in-progress` }>
+          <button
+            type="button"
+            data-testid="start-recipe-btn"
+            className="start-recipe-button"
+            onClick={ handleFunction }
+          >
+            Start Recipe
+          </button>
+        </Link>
+        {/* { teste || (recipesInProgress.meals
           && Object.keys(recipesInProgress.meals).includes(foodsID)) ? (
             <Link to={ `/foods/${foodsID}/in-progress` }>
               <button
@@ -137,7 +148,7 @@ function RecipeDetails({ context }) {
                 Start Recipe
               </button>
             </Link>
-          ) }
+          ) } */}
       </div>
     );
 
