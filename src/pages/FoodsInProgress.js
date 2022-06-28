@@ -98,3 +98,34 @@ function FoodsInProgress() {
 }
 
 export default FoodsInProgress;
+
+// const { pathname } = useLocation();
+// const foodsID = pathname.replace('/foods/', '');
+// const drinksID = pathname.replace('/drinks/', '');
+// const [inProgress, setInProgress] = useState(false); // setar comida em progresso (estado para renderizar a página)
+// const [alert, setAlert] = useState(''); // setar link da página no clipboard (estado para renderizar o link copied)
+
+// const recipesInProgress = (JSON.parse(localStorage.getItem('inProgressRecipes')))
+// || { meals: {}, cocktails: {} };
+
+// const handleFunction = () => { // função de start recipe
+//   if (pathname.includes('/foods/')) {
+//     localStorage.setItem('inProgressRecipes',
+//       JSON.stringify(
+//         {
+//           cocktails: { ...recipesInProgress.cocktails },
+//           meals: { ...recipesInProgress.meals, [foodsID]: [] },
+//         },
+//       ));
+//     setInProgress(!inProgress);
+//   } else if (pathname.includes('/drinks/')) {
+//     localStorage.setItem('inProgressRecipes',
+//       JSON.stringify(
+//         {
+//           cocktails: { ...recipesInProgress.cocktails, [drinksID]: [] },
+//           meals: { ...recipesInProgress.meals },
+//         },
+//       ));
+//     setInProgress(!inProgress);
+//   }
+// };
