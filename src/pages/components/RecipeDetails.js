@@ -1,17 +1,12 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import '../../App.css';
 import RecipeCard from './RecipeCard';
 import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
-import { setMeals, setCocktails } from '../../redux/slices/recipeProgressSlice';
-
-// const recipesInProgress = localStorage.getItem('inProgressRecipes')
-//    || { meals: {}, cocktails: {} };
 
 function RecipeDetails({ context }) {
-  const dispatch = useDispatch();
   const foodDetailsSlice = useSelector(({ foodDetail }) => foodDetail);
   const {
     foodDetail,
@@ -22,10 +17,10 @@ function RecipeDetails({ context }) {
 
   const drinkDetailsSlice = useSelector(({ drinkDetail }) => drinkDetail);
   const {
-    drinkDetail,
+    // drinkDetail,
     drinkIngredients,
-    drinkIngredientsMeasurement,
-    foodRecommendation,
+    // drinkIngredientsMeasurement,
+    // foodRecommendation,
   } = drinkDetailsSlice;
 
   // const recipeProgressSlice = useSelector(({ recipeProgress }) => recipeProgress);
@@ -37,15 +32,22 @@ function RecipeDetails({ context }) {
   const { pathname } = useLocation();
   const foodsID = pathname.replace('/foods/', '');
   const drinksID = pathname.replace('/drinks/', '');
-  const [teste] = useState(false); // setar comida em progresso (estado para renderizar a página)
+  const [inProgress, setInProgress] = useState(false); // setar comida em progresso (estado para renderizar a página)
   const [alert, setAlert] = useState(''); // setar link da página no clipboard (estado para renderizar o link copied)
 
+  const recipesInProgress = (JSON.parse(localStorage.getItem('inProgressRecipes')))
+  || { meals: {}, cocktails: {} };
+
   const handleFunction = () => { // função de start recipe
-    const idFood = foodDetail.meals[0].idMeal;
-    const foodObject = { [idFood]: [] };
     if (pathname.includes('/foods/')) {
-      dispatch(setMeals(foodObject));
-      setTeste(!teste);
+      localStorage.setItem('inProgressRecipes',
+        JSON.stringify(
+          {
+            ...recipesInProgress,
+            meals: { ...recipesInProgress.meals, [foodsID]: foodIngredients },
+          },
+        ));
+      setInProgress(!inProgress);
     } else if (pathname.includes('/drinks/')) {
       localStorage.setItem('inProgressRecipes',
         JSON.stringify(
@@ -54,7 +56,7 @@ function RecipeDetails({ context }) {
             cocktails: { ...recipesInProgress.cocktails, [drinksID]: drinkIngredients },
           },
         ));
-      setTeste(!teste);
+      setInProgress(!inProgress);
     }
   };
 
@@ -115,7 +117,7 @@ function RecipeDetails({ context }) {
             </div>
           )) }
         </div>
-        <Link to={ `/foods/${foodsID}/in-progress` }>
+        {/* <Link to={ `/foods/${foodsID}/in-progress` }>
           <button
             type="button"
             data-testid="start-recipe-btn"
@@ -124,8 +126,8 @@ function RecipeDetails({ context }) {
           >
             Start Recipe
           </button>
-        </Link>
-        {/* { teste || (recipesInProgress.meals
+        </Link> */}
+        { inProgress || (recipesInProgress.meals
           && Object.keys(recipesInProgress.meals).includes(foodsID)) ? (
             <Link to={ `/foods/${foodsID}/in-progress` }>
               <button
@@ -143,89 +145,7 @@ function RecipeDetails({ context }) {
                 type="button"
                 data-testid="start-recipe-btn"
                 className="start-recipe-button"
-                // onClick={ handleFunction }
-              >
-                Start Recipe
-              </button>
-            </Link>
-          ) } */}
-      </div>
-    );
-
-  const renderDrinkDetail = Object.entries(drinkDetail).length > 0
-    && (
-      <div>
-        <img
-          src={ drinks[0].strDrinkThumb }
-          alt="Foto da bebida"
-          data-testid="recipe-photo"
-        />
-        <input
-          data-testid="share-btn"
-          type="image"
-          src={ shareIcon }
-          alt="Botão de compartilhar"
-          onClick={ () => {
-            navigator.clipboard.writeText(`http://localhost:3000${pathname}`);
-            setAlert('Link copied!');
-          } }
-        />
-        {alert}
-        <input
-          data-testid="favorite-btn"
-          type="image"
-          src={ whiteHeartIcon }
-          alt="Botão de favoritar"
-        />
-        <h1 data-testid="recipe-title">{ drinks[0].strDrink }</h1>
-        <p data-testid="recipe-category">{ drinks[0].strCategory }</p>
-        <p data-testid="recipe-category">{ drinks[0].strAlcoholic }</p>
-        <ul>
-          { drinkIngredients
-            .map((filteredIngred, index) => (
-              <li
-                key={ `${filteredIngred}-${index}` }
-                data-testid={ `${index}-ingredient-name-and-measure` }
-              >
-                { drinkIngredientsMeasurement[index] !== null
-                  ? `${filteredIngred} - ${drinkIngredientsMeasurement[index]}`
-                  : `${filteredIngred}` }
-              </li>
-            )) }
-        </ul>
-        <p data-testid="instructions">{ drinks[0].strInstructions }</p>
-        <p>Recomendações:</p>
-        <div className="recommendation">
-          { foodRecommendation.map((food, index) => (
-            <div key={ index } data-testid={ `${index}-recomendation-card` }>
-              <RecipeCard
-                index={ index }
-                food={ food }
-                datatestid={ `${index}-recomendation-title` }
-                detail
-              />
-            </div>
-          )) }
-        </div>
-        { teste || (recipesInProgress.cocktails
-          && Object.keys(recipesInProgress.cocktails).includes(drinksID)) ? (
-            <Link to={ `/drinks/${drinksID}/in-progress` }>
-              <button
-                type="button"
-                data-testid="start-recipe-btn"
-                className="start-recipe-button"
-              >
-                Continue Recipe
-              </button>
-            </Link>
-          )
-          : (
-            <Link to={ `/drinks/${drinksID}/in-progress` }>
-              <button
-                type="button"
-                data-testid="start-recipe-btn"
-                className="start-recipe-button"
-                // onClick={ handleFunction }
+                onClick={ handleFunction }
               >
                 Start Recipe
               </button>
@@ -233,6 +153,88 @@ function RecipeDetails({ context }) {
           ) }
       </div>
     );
+
+  // const renderDrinkDetail = Object.entries(drinkDetail).length > 0
+  //   && (
+  //     <div>
+  //       <img
+  //         src={ drinks[0].strDrinkThumb }
+  //         alt="Foto da bebida"
+  //         data-testid="recipe-photo"
+  //       />
+  //       <input
+  //         data-testid="share-btn"
+  //         type="image"
+  //         src={ shareIcon }
+  //         alt="Botão de compartilhar"
+  //         onClick={ () => {
+  //           navigator.clipboard.writeText(`http://localhost:3000${pathname}`);
+  //           setAlert('Link copied!');
+  //         } }
+  //       />
+  //       {alert}
+  //       <input
+  //         data-testid="favorite-btn"
+  //         type="image"
+  //         src={ whiteHeartIcon }
+  //         alt="Botão de favoritar"
+  //       />
+  //       <h1 data-testid="recipe-title">{ drinks[0].strDrink }</h1>
+  //       <p data-testid="recipe-category">{ drinks[0].strCategory }</p>
+  //       <p data-testid="recipe-category">{ drinks[0].strAlcoholic }</p>
+  //       <ul>
+  //         { drinkIngredients
+  //           .map((filteredIngred, index) => (
+  //             <li
+  //               key={ `${filteredIngred}-${index}` }
+  //               data-testid={ `${index}-ingredient-name-and-measure` }
+  //             >
+  //               { drinkIngredientsMeasurement[index] !== null
+  //                 ? `${filteredIngred} - ${drinkIngredientsMeasurement[index]}`
+  //                 : `${filteredIngred}` }
+  //             </li>
+  //           )) }
+  //       </ul>
+  //       <p data-testid="instructions">{ drinks[0].strInstructions }</p>
+  //       <p>Recomendações:</p>
+  //       <div className="recommendation">
+  //         { foodRecommendation.map((food, index) => (
+  //           <div key={ index } data-testid={ `${index}-recomendation-card` }>
+  //             <RecipeCard
+  //               index={ index }
+  //               food={ food }
+  //               datatestid={ `${index}-recomendation-title` }
+  //               detail
+  //             />
+  //           </div>
+  //         )) }
+  //       </div>
+  //       { inProgress || (recipesInProgress.cocktails
+  //         && Object.keys(recipesInProgress.cocktails).includes(drinksID)) ? (
+  //           <Link to={ `/drinks/${drinksID}/in-progress` }>
+  //             <button
+  //               type="button"
+  //               data-testid="start-recipe-btn"
+  //               className="start-recipe-button"
+  //             >
+  //               Continue Recipe
+  //             </button>
+  //           </Link>
+  //         )
+  //         : (
+  //           <Link to={ `/drinks/${drinksID}/in-progress` }>
+  //             <button
+  //               type="button"
+  //               data-testid="start-recipe-btn"
+  //               className="start-recipe-button"
+  //               // onClick={ handleFunction }
+  //             >
+  //               Start Recipe
+  //             </button>
+  //           </Link>
+  //         ) }
+  //     </div>
+  //   );
 
   if (context === 'listFoods') {
     return renderFoodDetail;
