@@ -30,6 +30,32 @@ const ApiListFood = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
 
 const ApiListDrink = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
 
+const handleFoods = (foodsID, foodIngredients) => {
+  const recipesInProgress = JSON.parse(localStorage.getItem('inProgressRecipes'))
+  || { meals: {}, cocktails: {} };
+
+  localStorage.setItem('inProgressRecipes',
+    JSON.stringify(
+      {
+        ...recipesInProgress,
+        meals: { ...recipesInProgress.meals, [foodsID]: foodIngredients },
+      },
+    ));
+};
+
+const handleDrinks = (drinksID, drinkIngredients) => {
+  const recipesInProgress = JSON.parse(localStorage.getItem('inProgressRecipes'))
+  || { meals: {}, cocktails: {} };
+
+  localStorage.setItem('inProgressRecipes',
+    JSON.stringify(
+      {
+        ...recipesInProgress,
+        cocktails: { ...recipesInProgress.cocktails, [drinksID]: drinkIngredients },
+      },
+    ));
+};
+
 export {
   verifyEmail,
   email,
@@ -47,4 +73,6 @@ export {
   ApiListDrink,
   ApiFoodIngredients,
   ApiDrinkIngredients,
+  handleFoods,
+  handleDrinks,
 };

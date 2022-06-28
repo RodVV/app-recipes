@@ -49,7 +49,7 @@ function DrinkDetails() {
       dispatch(setDrinkRecommendation(allRecommendation));
     };
     drinkDetails();
-  }, [pathname]);
+  }, [pathname, dispatch]);
 
   return (Object.entries(drinkDetail).length > 0 && (
     <div>
