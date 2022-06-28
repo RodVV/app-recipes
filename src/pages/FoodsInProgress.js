@@ -1,60 +1,22 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setMeals } from '../redux/slices/recipeProgressSlice';
 // import { useLocation } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 
 function FoodsInProgress() {
+  // const dispatch = useDispatch();
   const recipeNotFinished = useSelector(({ foodDetail }) => foodDetail);
   const { foodIngredients, foodDetail } = recipeNotFinished;
   const { meals } = foodDetail;
-  // const inProgressSlice = useSelector(({ recipeProgress }) => recipeProgress);
-  // const foodIngredientsAndMeasurement = [...recipeNotFinished.foodIngredients,
-  //   ...recipeNotFinished.foodIngredientsMeasurement];
-  // const {
-  //   foodIngredients,
-  // } = recipeNotFinished;
+  // const recipeProgressSlice = useSelector(({ recipeProgress }) => recipeProgress);
 
-  // const { pathname } = useLocation();
-  // const foodsID = pathname.replace('/foods/', '');
-  // const drinksID = pathname.replace('/drinks/', '');
-  // const [teste, setTeste] = useState(false); // setar comida em progresso (estado para renderizar a página)
-  const recipeProgressSlice = useSelector(({ recipeProgress }) => recipeProgress);
-
-  const recipesInProgress = (JSON.parse(localStorage.getItem('inProgressRecipes')))
-  || { meals: {}, cocktails: {} };
-  console.log(recipesInProgress);
-
-  useEffect(() => {
-    localStorage.setItem('inProgressRecipes',
-      JSON.stringify(
-        {
-          meals: { ...recipesInProgress.meals, ...recipeProgressSlice.meals },
-        },
-      ));
-    // const handleFunction = () => { // função de start recipe
-    //   if (pathname.includes('/foods/')) {
-    //     localStorage.setItem('inProgressRecipes',
-    //       JSON.stringify(
-    //         {
-    //           ...recipesInProgress,
-    //           meals: { ...recipesInProgress.meals, [foodsID]: foodIngredients },
-    //         },
-    //       ));
-    //     setTeste(!teste);
-    //   } else if (pathname.includes('/drinks/')) {
-    //     localStorage.setItem('inProgressRecipes',
-    //       JSON.stringify(
-    //         {
-    //           ...recipesInProgress,
-    //           cocktails: { ...recipesInProgress.cocktails, [drinksID]: drinkIngredients },
-    //         },
-    //       ));
-    //     setTeste(!teste);
-    //   }
-    // };
-    // handleFunction();
-  }, []);
+  // useEffect(() => {
+  //   const inProgressMeals = localStorage.getItem('inProgressMeals') || { meals: [] };
+  //   const inProgressMealsJson = JSON.parse(inProgressMeals);
+  //   dispatch(setMeals(inProgressMealsJson.meals));
+  // }, []);
 
   // {recipeNotFinished.foodDetail.meals
   //   && recipeNotFinished.foodDetail.meals.map((recipe) => (
@@ -116,7 +78,7 @@ function FoodsInProgress() {
   //       </>
   //     ))}
   return (
-    meals ? (meals.map((recipe, index) => (
+    meals && meals.map((recipe, index) => (
       <div key={ index }>
         <p
           data-testid="recipe-title"
@@ -167,7 +129,7 @@ function FoodsInProgress() {
           Finish recipe
         </button>
       </div>
-    ))) : (<h1>No recipes in progress</h1>)
+    ))
   );
 }
 

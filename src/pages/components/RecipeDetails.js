@@ -23,9 +23,6 @@ function RecipeDetails({ context }) {
     // foodRecommendation,
   } = drinkDetailsSlice;
 
-  // const recipeProgressSlice = useSelector(({ recipeProgress }) => recipeProgress);
-  // const { meals, cocktails } = recipeProgressSlice;
-
   // const { meals } = foodDetail;
   // const { drinks } = drinkDetail;
 
