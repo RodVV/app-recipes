@@ -1,12 +1,9 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { TWELVE, ApiDrink } from './helpers';
+import React from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import RecipeCard from './components/RecipeCard';
 import ButtonFilter from './components/ButtonFilters';
-import { setInitialDrinks } from '../redux/slices/sliceOfFood';
 import '../App.css';
+import DrinksRender from './components/DrinksRender';
 
 function Drinks() {
   const dispatch = useDispatch();
@@ -33,29 +30,7 @@ function Drinks() {
     <div>
       <Header />
       <ButtonFilter context="listDrink" />
-      {((!drinks && cards.length === 0) || allCategory)
-        && initialDrinks.map((drink, index) => (
-          <div key={ index }>
-            <RecipeCard index={ index } drink={ drink } />
-          </div>
-        ))}
-      {drinks
-        && cards.length === 0
-        && !allCategory
-        && drinks
-          .filter((_drink, index) => index < TWELVE)
-          .map((filteredDrink, filteredIndex) => (
-            <div key={ filteredIndex }>
-              <RecipeCard index={ filteredIndex } drink={ filteredDrink } />
-            </div>
-          ))}
-      {cards.length > 0
-        && !allCategory
-        && cards.map((drinksCategory, index) => (
-          <div key={ index }>
-            <RecipeCard index={ index } drink={ drinksCategory } />
-          </div>
-        ))}
+      <DrinksRender />
       <Footer />
     </div>
   );

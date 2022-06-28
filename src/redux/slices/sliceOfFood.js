@@ -3,6 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   initialMeals: [],
   initialDrinks: [],
+  foodIngredients: [],
+  drinkIngredients: [],
 };
 
 export const sliceOfFood = createSlice({
@@ -15,8 +17,20 @@ export const sliceOfFood = createSlice({
     setInitialDrinks: (state, action) => {
       state.initialDrinks = action.payload;
     },
+    setFoodIngredients: (state, action) => {
+      state.foodIngredients = action.payload;
+    },
+    setDrinkIngredients: (state, action) => {
+      state.drinkIngredients = action.payload;
+    },
   },
 });
 
-export const { setInitialMeals, setInitialDrinks } = sliceOfFood.actions;
+export const {
+  setInitialMeals,
+  setInitialDrinks,
+  setFoodIngredients,
+  setDrinkIngredients,
+} = sliceOfFood.actions;
+
 export default sliceOfFood.reducer;
