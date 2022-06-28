@@ -4,10 +4,13 @@ import { Link, useLocation } from 'react-router-dom';
 import '../../App.css';
 import RecipeCard from './RecipeCard';
 import shareIcon from '../../images/shareIcon.svg';
-import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
+import AddToFavoriteButton from './AddToFavoriteButton';
+import RemoveFromFavoriteButton from './RemoveFromFavoriteButton';
 
 const recipesInProgress = JSON.parse(localStorage.getItem('inProgressRecipes'))
   || { meals: {}, cocktails: {} };
+
+const favoriteRecipesList = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
 
 function RecipeDetails({ context }) {
   const foodDetailsSlice = useSelector(({ foodDetail }) => foodDetail);
@@ -34,6 +37,7 @@ function RecipeDetails({ context }) {
   const drinksID = pathname.replace('/drinks/', '');
   const [teste, setTeste] = useState(false); // setar comida em progresso (estado para renderizar a página)
   const [alert, setAlert] = useState(''); // setar link da página no clipboard (estado para renderizar o link copied)
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const handleFunction = () => { // função de start recipe
     if (pathname.includes('/foods/')) {
@@ -57,6 +61,75 @@ function RecipeDetails({ context }) {
     }
   };
 
+  const addFavoriteFood = () => {
+    const favoriteRecipe = {
+      id: meals[0].idMeal,
+      type: 'food',
+      nationality: meals[0].strArea,
+      category: meals[0].strCategory,
+      alcoholicOrNot: '',
+      name: meals[0].strMeal,
+      image: meals[0].strMealThumb,
+    };
+
+    setIsFavorite(true);
+
+    if (Object.values(favoriteRecipesList)
+      .filter((e) => e.id === meals[0].idMeal).length === 0) {
+      localStorage.setItem('favoriteRecipes',
+        JSON.stringify([...favoriteRecipesList, favoriteRecipe]));
+    }
+    window.location.reload();
+  };
+
+  const deleteFavoriteFood = () => {
+    const filteredFavoriteRecipes = favoriteRecipesList
+      .filter((e) => e.id !== meals[0].idMeal);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(filteredFavoriteRecipes));
+
+    setIsFavorite(false);
+
+    if (filteredFavoriteRecipes.length === 0) {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([]));
+    }
+    window.location.reload();
+  };
+
+  const addFavoriteDrink = () => {
+    const favoriteRecipe = {
+      id: drinks[0].idDrink,
+      type: 'drink',
+      nationality: drinks[0].strArea,
+      category: drinks[0].strCategory,
+      alcoholicOrNot: '',
+      name: drinks[0].strDrink,
+      image: drinks[0].strDrinkThumb,
+    };
+
+    setIsFavorite(true);
+
+    if (Object.values(favoriteRecipesList)
+      .filter((e) => e.id === drinks[0].idDrink).length === 0) {
+      localStorage.setItem('favoriteRecipes',
+        JSON.stringify([...favoriteRecipesList, favoriteRecipe]));
+    }
+
+    window.location.reload();
+  };
+
+  const deleteFavoriteDrink = () => {
+    const filteredFavoriteRecipes = favoriteRecipesList
+      .filter((e) => e.id !== drinks[0].idDrink);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(filteredFavoriteRecipes));
+
+    setIsFavorite(false);
+
+    if (filteredFavoriteRecipes.length === 0) {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([]));
+    }
+    window.location.reload();
+  };
+
   const renderFoodDetail = Object.entries(foodDetail).length > 0
     && (
       <div>
@@ -75,13 +148,11 @@ function RecipeDetails({ context }) {
             setAlert('Link copied!');
           } }
         />
-        <input
-          data-testid="favorite-btn"
-          type="image"
-          src={ whiteHeartIcon }
-          alt="Botão de favoritar"
-        />
-        <p>{alert}</p>
+        {isFavorite || Object.values(favoriteRecipesList)
+          .filter((e) => e.id === meals[0].idMeal).length > 0
+          ? <RemoveFromFavoriteButton handleFunction={ deleteFavoriteFood } />
+          : <AddToFavoriteButton handleFunction={ addFavoriteFood } /> }
+        <p>{ alert }</p>
         <h1 data-testid="recipe-title">{ meals[0].strMeal }</h1>
         <p data-testid="recipe-category">{ meals[0].strCategory }</p>
         <ul>
@@ -159,13 +230,11 @@ function RecipeDetails({ context }) {
             setAlert('Link copied!');
           } }
         />
-        {alert}
-        <input
-          data-testid="favorite-btn"
-          type="image"
-          src={ whiteHeartIcon }
-          alt="Botão de favoritar"
-        />
+        { alert }
+        {isFavorite || Object.values(favoriteRecipesList)
+          .filter((e) => e.id === drinks[0].idDrink).length > 0
+          ? <RemoveFromFavoriteButton handleFunction={ deleteFavoriteDrink } />
+          : <AddToFavoriteButton handleFunction={ addFavoriteDrink } /> }
         <h1 data-testid="recipe-title">{ drinks[0].strDrink }</h1>
         <p data-testid="recipe-category">{ drinks[0].strCategory }</p>
         <p data-testid="recipe-category">{ drinks[0].strAlcoholic }</p>
