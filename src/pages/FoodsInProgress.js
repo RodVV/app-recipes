@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-// import { setMeals } from '../redux/slices/recipeProgressSlice';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
   setFoodDetail,
   setFoodIngredients,
@@ -16,7 +15,6 @@ function FoodsInProgress() {
   const foodDetailSlice = useSelector(({ foodDetail }) => foodDetail);
   const { foodDetail, foodIngredients, foodIngredientsMeasurement } = foodDetailSlice;
   const { meals } = foodDetail;
-  console.log(meals);
 
   const localStorageMeals = JSON.parse(
     localStorage.getItem('inProgressRecipes'),
@@ -81,7 +79,7 @@ function FoodsInProgress() {
             <li key={ i }>
               <label data-testid={ `${index}-ingredient-step` } htmlFor={ i }>
                 {`${ingredient} - ${foodIngredientsMeasurement[i]}`}
-                <input type="checkbox" id={ i } />
+                <input onChange={ () => handleRadio(i) } type="checkbox" id={ i } />
               </label>
             </li>
           ))}
@@ -89,43 +87,14 @@ function FoodsInProgress() {
 
         <p data-testid="instructions">{recipe.strInstructions}</p>
 
-        <button type="button" data-testid="finish-recipe-btn">
-          Finish recipe
-        </button>
+        <Link to="/done-recipes">
+          <button type="button" data-testid="finish-recipe-btn">
+            Finish recipe
+          </button>
+        </Link>
       </div>
     ))
     : null;
 }
 
 export default FoodsInProgress;
-
-// const { pathname } = useLocation();
-// const foodsID = pathname.replace('/foods/', '');
-// const drinksID = pathname.replace('/drinks/', '');
-// const [inProgress, setInProgress] = useState(false); // setar comida em progresso (estado para renderizar a página)
-// const [alert, setAlert] = useState(''); // setar link da página no clipboard (estado para renderizar o link copied)
-
-// const recipesInProgress = (JSON.parse(localStorage.getItem('inProgressRecipes')))
-// || { meals: {}, cocktails: {} };
-
-// const handleFunction = () => { // função de start recipe
-//   if (pathname.includes('/foods/')) {
-//     localStorage.setItem('inProgressRecipes',
-//       JSON.stringify(
-//         {
-//           cocktails: { ...recipesInProgress.cocktails },
-//           meals: { ...recipesInProgress.meals, [foodsID]: [] },
-//         },
-//       ));
-//     setInProgress(!inProgress);
-//   } else if (pathname.includes('/drinks/')) {
-//     localStorage.setItem('inProgressRecipes',
-//       JSON.stringify(
-//         {
-//           cocktails: { ...recipesInProgress.cocktails, [drinksID]: [] },
-//           meals: { ...recipesInProgress.meals },
-//         },
-//       ));
-//     setInProgress(!inProgress);
-//   }
-// };

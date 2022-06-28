@@ -3,9 +3,6 @@ import { useSelector } from 'react-redux';
 import FoodDetails from './FoodDetails';
 import DrinkDetails from './DrinkDetails';
 import '../../App.css';
-// import RecipeCard from './RecipeCard';
-// import shareIcon from '../../images/shareIcon.svg';
-// import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 
 function RecipeDetails({ context }) {
   const foodDetailsSlice = useSelector(({ foodDetail }) => foodDetail);
