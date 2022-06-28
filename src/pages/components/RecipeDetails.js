@@ -15,13 +15,13 @@ function RecipeDetails({ context }) {
     drinkRecommendation,
   } = foodDetailsSlice;
 
-  const drinkDetailsSlice = useSelector(({ drinkDetail }) => drinkDetail);
-  const {
-    // drinkDetail,
-    drinkIngredients,
-    // drinkIngredientsMeasurement,
-    // foodRecommendation,
-  } = drinkDetailsSlice;
+  // const drinkDetailsSlice = useSelector(({ drinkDetail }) => drinkDetail);
+  // const {
+  //   drinkDetail,
+  //   drinkIngredients,
+  //   drinkIngredientsMeasurement,
+  //   foodRecommendation,
+  // } = drinkDetailsSlice;
 
   // const { meals } = foodDetail;
   // const { drinks } = drinkDetail;
@@ -40,8 +40,8 @@ function RecipeDetails({ context }) {
       localStorage.setItem('inProgressRecipes',
         JSON.stringify(
           {
-            ...recipesInProgress,
-            meals: { ...recipesInProgress.meals, [foodsID]: foodIngredients },
+            cocktails: { ...recipesInProgress.cocktails },
+            meals: { ...recipesInProgress.meals, [foodsID]: [] },
           },
         ));
       setInProgress(!inProgress);
@@ -49,8 +49,8 @@ function RecipeDetails({ context }) {
       localStorage.setItem('inProgressRecipes',
         JSON.stringify(
           {
-            ...recipesInProgress,
-            cocktails: { ...recipesInProgress.cocktails, [drinksID]: drinkIngredients },
+            cocktails: { ...recipesInProgress.cocktails, [drinksID]: [] },
+            meals: { ...recipesInProgress.meals },
           },
         ));
       setInProgress(!inProgress);
