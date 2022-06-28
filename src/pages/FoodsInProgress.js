@@ -6,6 +6,7 @@ import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 
 function FoodsInProgress() {
   const recipeNotFinished = useSelector(({ foodDetail }) => foodDetail);
+  // const inProgressSlice = useSelector(({ recipeProgress }) => recipeProgress);
   // const foodIngredientsAndMeasurement = [...recipeNotFinished.foodIngredients,
   //   ...recipeNotFinished.foodIngredientsMeasurement];
   const {
