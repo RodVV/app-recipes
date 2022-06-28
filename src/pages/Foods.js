@@ -26,7 +26,7 @@ function Foods() {
       dispatch(setInitialMeals(allProducts));
     };
     recipesFoods();
-  }, []);
+  }, [dispatch]);
 
   return (
     <div>

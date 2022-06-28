@@ -27,7 +27,7 @@ function Drinks() {
       dispatch(setInitialDrinks(filterDrink));
     };
     listFiltersDrink();
-  }, []);
+  }, [dispatch]);
 
   return (
     <div>

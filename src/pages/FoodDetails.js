@@ -47,7 +47,7 @@ function FoodDetails() {
       dispatch(setDrinkRecommendation(allRecommendation));
     };
     foodDetails();
-  }, [pathname]);
+  }, [pathname, dispatch]);
 
   return (
     Object.entries(foodDetail).length > 0 && (
