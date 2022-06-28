@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
+import '../App.css';
 import {
   setFoodDetail,
   setFoodIngredients,
@@ -15,6 +16,8 @@ function FoodsInProgress() {
   const foodDetailSlice = useSelector(({ foodDetail }) => foodDetail);
   const { foodDetail, foodIngredients, foodIngredientsMeasurement } = foodDetailSlice;
   const { meals } = foodDetail;
+
+  const [check, setCheck] = useState([]);
 
   const localStorageMeals = JSON.parse(
     localStorage.getItem('inProgressRecipes'),
@@ -51,6 +54,15 @@ function FoodsInProgress() {
     }
   }, []);
 
+  const handleRadio = (i) => {
+    if (check.some((e) => e === i)) {
+      const a = check.filter((e) => e !== i);
+      setCheck(a);
+    } else {
+      setCheck([...check, i]);
+    }
+  };
+
   return meals
     ? meals.map((recipe, index) => (
       <div key={ index }>
@@ -77,9 +89,17 @@ function FoodsInProgress() {
         <ul>
           {foodIngredients.map((ingredient, i) => (
             <li key={ i }>
-              <label data-testid={ `${index}-ingredient-step` } htmlFor={ i }>
+              <label
+                className={ check.some((e) => e === i) ? 'checked' : '' }
+                data-testid={ `${index}-ingredient-step` }
+                htmlFor={ i }
+              >
                 {`${ingredient} - ${foodIngredientsMeasurement[i]}`}
-                <input onChange={ () => handleRadio(i) } type="checkbox" id={ i } />
+                <input
+                  onChange={ () => handleRadio(i) }
+                  type="checkbox"
+                  id={ i }
+                />
               </label>
             </li>
           ))}
