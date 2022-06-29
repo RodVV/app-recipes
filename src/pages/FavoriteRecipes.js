@@ -1,17 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from './components/Header';
 import '../App.css';
 import FavoriteCard from './components/FavoritesCard';
 import ButtonFilterFavoriteRecipes from './components/ButtonFilterFavoriteRecipes';
 
 function FavoriteRecipes() {
-  const storageItems = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
+  const [unfavorite, setUnfavorite] = useState(false);
+  const [localStorageS, setLocalStorageS] = useState([{
+    id: '',
+    type: '',
+    nationality: '',
+    category: '',
+    alcoholicOrNot: '',
+    name: '',
+    image: '',
+  }]);
+
+  useEffect(() => {
+    setLocalStorageS(JSON.parse(localStorage.getItem('favoriteRecipes')) || []);
+  }, [unfavorite]);
+
   return (
     <div>
       <Header />
       <ButtonFilterFavoriteRecipes />
       {
-        storageItems.map(({ image,
+        localStorageS.map(({ image,
           name,
           category,
           nationality,
@@ -29,6 +43,9 @@ function FavoriteRecipes() {
             alcoholicOrNot={ alcoholicOrNot }
             type={ type }
             index={ index }
+            localStorageS={ localStorageS }
+            setUnfavorite={ setUnfavorite }
+            unfavorite={ unfavorite }
           />))
       }
     </div>

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import shareIcon from '../../images/shareIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
@@ -13,11 +12,23 @@ function FavoriteCard({
   type,
   alcoholicOrNot,
   index,
+  localStorageS,
+  setUnfavorite,
+  unfavorite,
 }) {
   const [alert, setAlert] = useState('');
 
-  // const { pathname } = useLocation();
-  // const shareLink = pathname.replace('/favorite-recipes', '');
+  const deleteFavorite = () => {
+    setUnfavorite(!unfavorite);
+
+    const filteredFavoriteRecipes = localStorageS
+      .filter((e) => e.id !== id);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(filteredFavoriteRecipes));
+
+    if (filteredFavoriteRecipes.length === 0) {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([]));
+    }
+  };
 
   switch (type) {
   case 'food':
@@ -33,12 +44,15 @@ function FavoriteCard({
         <p data-testid={ `${index}-horizontal-top-text` }>
           { `${nationality} - ${category}` }
         </p>
+
         <input
           data-testid={ `${index}-horizontal-favorite-btn` }
           type="image"
           src={ blackHeartIcon }
           alt="Botão de desfavoritar"
+          onClick={ deleteFavorite }
         />
+
         <input
           type="image"
           src={ shareIcon }
@@ -64,12 +78,15 @@ function FavoriteCard({
         />
         <p data-testid={ `${index}-horizontal-name` }>{ name }</p>
         <p data-testid={ `${index}-horizontal-top-text` }>{alcoholicOrNot}</p>
+
         <input
           data-testid={ `${index}-horizontal-favorite-btn` }
           type="image"
           src={ blackHeartIcon }
           alt="Botão de desfavoritar"
+          onClick={ deleteFavorite }
         />
+
         <input
           type="image"
           src={ shareIcon }
@@ -94,6 +111,9 @@ FavoriteCard.propTypes = {
   type: PropTypes.string.isRequired,
   alcoholicOrNot: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
+  localStorageS: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setUnfavorite: PropTypes.func.isRequired,
+  unfavorite: PropTypes.bool.isRequired,
 };
 
 export default FavoriteCard;
