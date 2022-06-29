@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+// import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import shareIcon from '../../images/shareIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
@@ -13,6 +14,11 @@ function FavoriteCard({
   alcoholicOrNot,
   index,
 }) {
+  const [alert, setAlert] = useState('');
+
+  // const { pathname } = useLocation();
+  // const shareLink = pathname.replace('/favorite-recipes', '');
+
   switch (type) {
   case 'food':
     return (
@@ -36,9 +42,15 @@ function FavoriteCard({
         <input
           type="image"
           src={ shareIcon }
-          alt="compartilhar"
+          alt="Share icon"
           data-testid={ `${index}-horizontal-share-btn` }
+          onClick={ () => {
+            navigator.clipboard.writeText(`http://localhost:3000/foods/${id}`);
+            setAlert('Link copied!');
+          } }
         />
+
+        <p>{alert}</p>
       </div>
     );
   default:
@@ -61,14 +73,18 @@ function FavoriteCard({
         <input
           type="image"
           src={ shareIcon }
-          alt="compartilhar"
+          alt="Share icon"
           data-testid={ `${index}-horizontal-share-btn` }
+          onClick={ () => {
+            navigator.clipboard.writeText(`http://localhost:3000/drinks/${id}`);
+            setAlert('Link copied!');
+          } }
         />
+        <p>{alert}</p>
       </div>
     );
   }
 }
-
 FavoriteCard.propTypes = {
   image: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,

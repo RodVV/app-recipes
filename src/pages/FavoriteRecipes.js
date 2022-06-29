@@ -34,5 +34,4 @@ function FavoriteRecipes() {
     </div>
   );
 }
-
 export default FavoriteRecipes;
