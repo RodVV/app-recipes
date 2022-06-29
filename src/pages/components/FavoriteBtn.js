@@ -4,7 +4,6 @@ import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
 
 function FavoriteBtn({ meals, drinks, isMeal }) {
-  console.log(meals);
   const [isFavorite, setIsFavorite] = useState(false);
   const [unfavorite, setUnfavorite] = useState(false);
   const [localStorageS, setLocalStorageS] = useState([{

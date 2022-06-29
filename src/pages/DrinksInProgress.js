@@ -8,17 +8,21 @@ import { fetchDrink } from './helpers';
 
 function FoodsInProgress() {
   const dispatch = useDispatch();
-  const foodDetailSlice = useSelector(({ drinkDetail }) => drinkDetail);
-  const { drinkDetail, drinkIngredients, drinkIngredientsMeasurement } = foodDetailSlice;
+  const drinkDetailSlice = useSelector(({ drinkDetail }) => drinkDetail);
+  const { drinkDetail, drinkIngredients, drinkIngredientsMeasurement } = drinkDetailSlice;
   const { drinks } = drinkDetail;
 
   const [check, setCheck] = useState([]);
+  const [alert, setAlert] = useState(''); // setar link da página no clipboard (estado para renderizar o link copied)
+  const [ingredients, setIngredients] = useState([]);
 
   const localStorageMeals = JSON.parse(
     localStorage.getItem('inProgressRecipes'),
-  );
+  ) || { meals: {}, cocktails: {} };
+
   const { pathname } = useLocation();
   const drinksID = pathname.split('/')[2];
+  const shareLink = pathname.replace('/in-progress', '');
 
   useEffect(() => {
     if (localStorageMeals === null || drinks === undefined) {
@@ -26,13 +30,28 @@ function FoodsInProgress() {
     }
   }, []);
 
-  const handleRadio = (i) => {
+  const handleRadio = ({ target }) => {
+    const ingredientName = target.name;
+    const i = target.id;
+    let newIngredients = [];
+
     if (check.some((e) => e === i)) {
-      const a = check.filter((e) => e !== i);
-      setCheck(a);
+      newIngredients = ingredients.filter((e) => e !== ingredientName);
+      setIngredients(newIngredients);
+      const newCheck = check.filter((e) => e !== i);
+      setCheck(newCheck);
     } else {
+      newIngredients = [...ingredients, ingredientName];
+      setIngredients(newIngredients);
       setCheck([...check, i]);
     }
+
+    localStorage.setItem('inProgressRecipes', JSON.stringify(
+      {
+        ...localStorageMeals,
+        cocktails: { ...localStorageMeals.cocktails, [drinksID]: newIngredients },
+      },
+    ));
   };
 
   return drinks
@@ -50,20 +69,28 @@ function FoodsInProgress() {
           src={ shareIcon }
           alt="Share icon"
           data-testid="share-btn"
+          onClick={ () => {
+            navigator.clipboard.writeText(`http://localhost:3000${shareLink}`);
+            setAlert('Link copied!');
+          } }
         />
+
         <FavoriteBtn drinks={ drinks } isMeal={ false } />
+
+        <p>{alert}</p>
 
         <ul>
           {drinkIngredients.map((ingredient, i) => (
             <li key={ i }>
               <label
-                className={ check.some((e) => e === i) ? 'checked' : '' }
+                className={ check.some((e) => parseFloat(e) === i) ? 'checked' : '' }
                 data-testid={ `${index}-ingredient-step` }
                 htmlFor={ i }
               >
                 {`${ingredient} - ${drinkIngredientsMeasurement[i]}`}
                 <input
-                  onChange={ () => handleRadio(i) }
+                  onChange={ (event) => handleRadio(event) }
+                  name={ ingredient }
                   type="checkbox"
                   id={ i }
                 />
@@ -75,13 +102,17 @@ function FoodsInProgress() {
         <p data-testid="instructions">{recipe.strInstructions}</p>
 
         <Link to="/done-recipes">
-          <button type="button" data-testid="finish-recipe-btn">
+          <button
+            disabled={ check.length !== drinkIngredients.length }
+            type="button"
+            data-testid="finish-recipe-btn"
+          >
             Finish recipe
           </button>
         </Link>
       </div>
     ))
-    : null;
+    : <p>Carregando...</p>;
 }
 
 export default FoodsInProgress;
