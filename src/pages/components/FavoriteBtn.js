@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
-import blackHeartIcon from '../../images/blackHeartIcon.svg';
+import AddToFavoriteButton from './AddToFavoriteButton';
+import RemoveFromFavoriteButton from './RemoveFromFavoriteButton';
 
-function FavoriteBtn({ meals, drinks, isMeal }) {
+function FavoriteBtn({ meals, drinks, isMeal, testId }) {
   const [isFavorite, setIsFavorite] = useState(false);
   const [unfavorite, setUnfavorite] = useState(false);
   const [localStorageS, setLocalStorageS] = useState([{
@@ -90,21 +90,12 @@ function FavoriteBtn({ meals, drinks, isMeal }) {
         {localStorageS
         && (Object.values(localStorageS).filter((e) => e.id === meals[0].idMeal))
           .length > 0 ? (
-            <input
-              data-testid="favorite-btn"
-              type="image"
-              src={ blackHeartIcon }
-              alt="Botão de desfavoritar"
-              onClick={ deleteFavoriteFood }
+            <RemoveFromFavoriteButton
+              handleFunction={ deleteFavoriteFood }
+              testId={ testId }
             />
           ) : (
-            <input
-              data-testid="favorite-btn"
-              type="image"
-              src={ whiteHeartIcon }
-              alt="Botão de favoritar"
-              onClick={ addFavoriteFood }
-            />
+            <AddToFavoriteButton handleFunction={ addFavoriteFood } testId={ testId } />
           )}
       </div>
     );
@@ -113,21 +104,12 @@ function FavoriteBtn({ meals, drinks, isMeal }) {
     <div>
       {localStorageS && Object.values(localStorageS)
         .filter((e) => e.id === drinks[0].idDrink).length > 0 ? (
-          <input
-            data-testid="favorite-btn"
-            type="image"
-            src={ blackHeartIcon }
-            alt="Botão de desfavoritar"
-            onClick={ deleteFavoriteDrink }
+          <RemoveFromFavoriteButton
+            handleFunction={ deleteFavoriteDrink }
+            testId={ testId }
           />
         ) : (
-          <input
-            data-testid="favorite-btn"
-            type="image"
-            src={ whiteHeartIcon }
-            alt="Botão de favoritar"
-            onClick={ addFavoriteDrink }
-          />
+          <AddToFavoriteButton handleFunction={ addFavoriteDrink } testId={ testId } />
         )}
     </div>
   );
@@ -137,11 +119,13 @@ FavoriteBtn.propTypes = {
   meals: PropTypes.arrayOf(PropTypes.object),
   isMeal: PropTypes.bool.isRequired,
   drinks: PropTypes.arrayOf(PropTypes.object),
+  testId: PropTypes.string,
 };
 
 FavoriteBtn.defaultProps = {
   meals: [],
   drinks: [],
+  testId: '',
 };
 
 export default FavoriteBtn;
