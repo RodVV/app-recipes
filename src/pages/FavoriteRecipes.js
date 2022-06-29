@@ -23,7 +23,7 @@ function FavoriteRecipes() {
   return (
     <div>
       <Header />
-      <ButtonFilterFavoriteRecipes />
+      <ButtonFilterFavoriteRecipes setLocalStorageS={ setLocalStorageS } />
       {
         localStorageS.map(({ image,
           name,
