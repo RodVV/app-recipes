@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import AddToFavoriteButton from './AddToFavoriteButton';
 import RemoveFromFavoriteButton from './RemoveFromFavoriteButton';
 
-function FavoriteBtn({ meals, drinks, isMeal, testId }) {
+function FavoriteBtn({ meals, drinks, isMeal }) {
   const [isFavorite, setIsFavorite] = useState(false);
   const [unfavorite, setUnfavorite] = useState(false);
   const [localStorageS, setLocalStorageS] = useState([{
@@ -92,10 +92,9 @@ function FavoriteBtn({ meals, drinks, isMeal, testId }) {
           .length > 0 ? (
             <RemoveFromFavoriteButton
               handleFunction={ deleteFavoriteFood }
-              testId={ testId }
             />
           ) : (
-            <AddToFavoriteButton handleFunction={ addFavoriteFood } testId={ testId } />
+            <AddToFavoriteButton handleFunction={ addFavoriteFood } />
           )}
       </div>
     );
@@ -106,10 +105,9 @@ function FavoriteBtn({ meals, drinks, isMeal, testId }) {
         .filter((e) => e.id === drinks[0].idDrink).length > 0 ? (
           <RemoveFromFavoriteButton
             handleFunction={ deleteFavoriteDrink }
-            testId={ testId }
           />
         ) : (
-          <AddToFavoriteButton handleFunction={ addFavoriteDrink } testId={ testId } />
+          <AddToFavoriteButton handleFunction={ addFavoriteDrink } />
         )}
     </div>
   );
@@ -119,13 +117,11 @@ FavoriteBtn.propTypes = {
   meals: PropTypes.arrayOf(PropTypes.object),
   isMeal: PropTypes.bool.isRequired,
   drinks: PropTypes.arrayOf(PropTypes.object),
-  testId: PropTypes.string,
 };
 
 FavoriteBtn.defaultProps = {
   meals: [],
   drinks: [],
-  testId: '',
 };
 
 export default FavoriteBtn;
