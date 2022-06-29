@@ -92,10 +92,9 @@ function FavoriteBtn({ meals, drinks, isMeal }) {
           .length > 0 ? (
             <RemoveFromFavoriteButton
               handleFunction={ deleteFavoriteFood }
-              testId={ testId }
             />
           ) : (
-            <AddToFavoriteButton handleFunction={ addFavoriteFood } testId={ testId } />
+            <AddToFavoriteButton handleFunction={ addFavoriteFood } />
           )}
       </div>
     );
@@ -106,10 +105,9 @@ function FavoriteBtn({ meals, drinks, isMeal }) {
         .filter((e) => e.id === drinks[0].idDrink).length > 0 ? (
           <RemoveFromFavoriteButton
             handleFunction={ deleteFavoriteDrink }
-            testId={ testId }
           />
         ) : (
-          <AddToFavoriteButton handleFunction={ addFavoriteDrink } testId={ testId } />
+          <AddToFavoriteButton handleFunction={ addFavoriteDrink } />
         )}
     </div>
   );
