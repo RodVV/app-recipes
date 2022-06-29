@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import shareIcon from '../../images/shareIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
@@ -17,6 +18,7 @@ function FavoriteCard({
   unfavorite,
 }) {
   const [alert, setAlert] = useState('');
+  console.log(type);
 
   const deleteFavorite = () => {
     setUnfavorite(!unfavorite);
@@ -34,13 +36,20 @@ function FavoriteCard({
   case 'food':
     return (
       <div id={ id }>
-        <input
-          type="image"
-          src={ image }
-          alt={ name }
-          data-testid={ `${index}-horizontal-image` }
-        />
-        <p data-testid={ `${index}-horizontal-name` }>{ name }</p>
+        <Link to={ `/${type}s/${id}` }>
+          <input
+            style={ { width: '50%' } }
+            type="image"
+            src={ image }
+            alt={ name }
+            data-testid={ `${index}-horizontal-image` }
+          />
+        </Link>
+
+        <Link to={ `/${type}s/${id}` }>
+          <p data-testid={ `${index}-horizontal-name` }>{ name }</p>
+        </Link>
+
         <p data-testid={ `${index}-horizontal-top-text` }>
           { `${nationality} - ${category}` }
         </p>
@@ -70,13 +79,20 @@ function FavoriteCard({
   default:
     return (
       <div id={ id }>
-        <input
-          type="image"
-          src={ image }
-          alt={ name }
-          data-testid={ `${index}-horizontal-image` }
-        />
-        <p data-testid={ `${index}-horizontal-name` }>{ name }</p>
+        <Link to={ `/${type}s/${id}` }>
+          <input
+            style={ { width: '50%' } }
+            type="image"
+            src={ image }
+            alt={ name }
+            data-testid={ `${index}-horizontal-image` }
+          />
+        </Link>
+
+        <Link to={ `/${type}s/${id}` }>
+          <p data-testid={ `${index}-horizontal-name` }>{ name }</p>
+        </Link>
+
         <p data-testid={ `${index}-horizontal-top-text` }>{alcoholicOrNot}</p>
 
         <input
