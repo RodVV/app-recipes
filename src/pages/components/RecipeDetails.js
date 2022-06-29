@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import FoodDetails from './FoodDetails';
-import DrinkDetails from './DrinkDetails';
+import FoodDetails from './FoodDetailsRender';
+import DrinkDetails from './DrinkDetailsRender';
 import '../../App.css';
 
 function RecipeDetails({ context }) {
@@ -33,11 +33,7 @@ function RecipeDetails({ context }) {
 
   const renderFoodDetail = Object.entries(foodDetail).length > 0
     && (
-      <FoodDetails
-        localStorageS={ localStorageS }
-        setIsFavorite={ setIsFavorite }
-        setUnfavorite={ setUnfavorite }
-      />);
+      <FoodDetails />);
 
   const renderDrinkDetail = Object.entries(drinkDetail).length > 0
     && (

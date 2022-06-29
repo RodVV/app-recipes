@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import AddToFavoriteButton from './AddToFavoriteButton';
 import RemoveFromFavoriteButton from './RemoveFromFavoriteButton';
 
-function FavoriteBtn({ meals, drinks, isMeal, testId }) {
+function FavoriteBtn({ meals, drinks, isMeal }) {
   const [isFavorite, setIsFavorite] = useState(false);
   const [unfavorite, setUnfavorite] = useState(false);
   const [localStorageS, setLocalStorageS] = useState([{
@@ -119,13 +119,11 @@ FavoriteBtn.propTypes = {
   meals: PropTypes.arrayOf(PropTypes.object),
   isMeal: PropTypes.bool.isRequired,
   drinks: PropTypes.arrayOf(PropTypes.object),
-  testId: PropTypes.string,
 };
 
 FavoriteBtn.defaultProps = {
   meals: [],
   drinks: [],
-  testId: '',
 };
 
 export default FavoriteBtn;
