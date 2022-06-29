@@ -1,3 +1,14 @@
+import {
+  setDrinkDetail,
+  setDrinkIngredients,
+  setDrinkIngredientsMeasurement,
+} from '../../redux/slices/drinkDetailSlice';
+import {
+  setFoodDetail,
+  setFoodIngredients,
+  setFoodIngredientsMeasurement,
+} from '../../redux/slices/foodDetailSlice';
+
 const SIX = 6;
 
 const verifyEmail = /\S+@\S+\.\S+/;
@@ -56,6 +67,57 @@ const handleDrinks = (drinksID) => {
     ));
 };
 
+const fetchDrink = async (dispatch, drinksID) => {
+  const request = await fetch(
+    `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${drinksID}`,
+  );
+  const response = await request.json();
+  dispatch(setDrinkDetail(response));
+  const drinkArray = response.drinks[0];
+  const drinkArrayEntries = Object.entries(drinkArray).filter(
+    (e) => e[0].includes('strIngredient') || e[0].includes('strMeasure'),
+  );
+  const drinkArrayIngredients = [];
+  const drinkArrayMeasurements = [];
+  drinkArrayEntries.forEach((e) => {
+    if (e[0].includes('strIngredient')) drinkArrayIngredients.push(e[1]);
+    else drinkArrayMeasurements.push(e[1]);
+  });
+  const slicedDrinkArrayIngredients = drinkArrayIngredients.filter(
+    (ingred) => ingred !== '' && ingred !== null,
+  );
+  dispatch(setDrinkIngredients(slicedDrinkArrayIngredients));
+  dispatch(setDrinkIngredientsMeasurement(drinkArrayMeasurements));
+
+  const newStorage = {
+    cocktails: { [response.drinks[0].idDrink]: [] },
+    meals: {},
+  };
+  localStorage.setItem('inProgressRecipes', JSON.stringify(newStorage));
+};
+
+const fetchFood = async (dispatch, foodsID) => {
+  const request = await fetch(
+    `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${foodsID}`,
+  );
+  const response = await request.json();
+  dispatch(setFoodDetail(response));
+  const foodArray = response.meals[0];
+  const foodValues = Object.values(foodArray);
+  const slicedFoodIngredients = foodValues
+    .slice(NINE, TWENTY_NINE)
+    .filter((ingredient) => ingredient !== '' && ingredient !== null);
+  const slicedFoodMeasurements = foodValues.slice(TWENTY_NINE, FOURTY_NINE);
+  dispatch(setFoodIngredients(slicedFoodIngredients));
+  dispatch(setFoodIngredientsMeasurement(slicedFoodMeasurements));
+
+  const newStorage = {
+    cocktails: {},
+    meals: { [response.meals[0].idMeal]: [] },
+  };
+  localStorage.setItem('inProgressRecipes', JSON.stringify(newStorage));
+};
+
 export {
   verifyEmail,
   email,
@@ -75,4 +137,6 @@ export {
   ApiDrinkIngredients,
   handleFoods,
   handleDrinks,
+  fetchDrink,
+  fetchFood,
 };
