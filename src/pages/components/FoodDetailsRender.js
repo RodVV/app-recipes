@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
-import propTypes from 'prop-types';
+// import propTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { handleFoods } from '../helpers';
 import RecipeCard from './RecipeCard';
 import shareIcon from '../../images/shareIcon.svg';
-import AddToFavoriteButton from './AddToFavoriteButton';
-import RemoveFromFavoriteButton from './RemoveFromFavoriteButton';
 import '../../App.css';
+import FavoriteBtn from './FavoriteBtn';
 
-function FoodDetails({ localStorageS, setIsFavorite, setUnfavorite }) {
+function FoodDetails() {
   const recipesInProgress = JSON.parse(localStorage.getItem('inProgressRecipes'))
   || { meals: {}, cocktails: {} };
 
@@ -28,38 +27,6 @@ function FoodDetails({ localStorageS, setIsFavorite, setUnfavorite }) {
   const [teste, setTeste] = useState(false); // setar comida em progresso (estado para renderizar a página)
   const [alert, setAlert] = useState(''); // setar link da página no clipboard (estado para renderizar o link copied)
 
-  const addFavoriteFood = () => {
-    const favoriteRecipe = {
-      id: meals[0].idMeal,
-      type: 'food',
-      nationality: meals[0].strArea,
-      category: meals[0].strCategory,
-      alcoholicOrNot: '',
-      name: meals[0].strMeal,
-      image: meals[0].strMealThumb,
-    };
-
-    setIsFavorite(true);
-
-    if (Object.values(localStorageS)
-      .filter((e) => e.id === meals[0].idMeal).length === 0) {
-      localStorage.setItem('favoriteRecipes',
-        JSON.stringify([...localStorageS, favoriteRecipe]));
-    }
-  };
-
-  const deleteFavoriteFood = () => {
-    setUnfavorite(true);
-
-    const filteredFavoriteRecipes = localStorageS
-      .filter((e) => e.id !== meals[0].idMeal);
-    localStorage.setItem('favoriteRecipes', JSON.stringify(filteredFavoriteRecipes));
-
-    if (filteredFavoriteRecipes.length === 0) {
-      localStorage.setItem('favoriteRecipes', JSON.stringify([]));
-    }
-  };
-
   return (
     <div>
       <img
@@ -77,10 +44,9 @@ function FoodDetails({ localStorageS, setIsFavorite, setUnfavorite }) {
           setAlert('Link copied!');
         } }
       />
-      {localStorageS && Object.values(localStorageS)
-        .filter((e) => e.id === meals[0].idMeal).length > 0
-        ? <RemoveFromFavoriteButton handleFunction={ deleteFavoriteFood } />
-        : <AddToFavoriteButton handleFunction={ addFavoriteFood } /> }
+
+      <FavoriteBtn meals={ meals } isMeal />
+
       <p>{ alert }</p>
       <h1 data-testid="recipe-title">{ meals[0].strMeal }</h1>
       <p data-testid="recipe-category">{ meals[0].strCategory }</p>
@@ -146,10 +112,10 @@ function FoodDetails({ localStorageS, setIsFavorite, setUnfavorite }) {
   );
 }
 
-FoodDetails.propTypes = {
-  localStorageS: propTypes.arrayOf(propTypes.any).isRequired,
-  setIsFavorite: propTypes.func.isRequired,
-  setUnfavorite: propTypes.func.isRequired,
-};
+// FoodDetails.propTypes = {
+//   localStorageS: propTypes.arrayOf(propTypes.any).isRequired,
+//   setIsFavorite: propTypes.func.isRequired,
+//   setUnfavorite: propTypes.func.isRequired,
+// };
 
 export default FoodDetails;
