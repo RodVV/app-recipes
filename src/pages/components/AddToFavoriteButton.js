@@ -2,10 +2,10 @@ import React from 'react';
 import propTypes from 'prop-types';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 
-function AddToFavoriteButton({ handleFunction, testId }) {
+function AddToFavoriteButton({ handleFunction }) {
   return (
     <input
-      data-testid={ `${testId === '' ? 'favorite-btn' : testId} ` }
+      data-testid="favorite-btn"
       type="image"
       src={ whiteHeartIcon }
       alt="Botão de favoritar"
@@ -16,10 +16,6 @@ function AddToFavoriteButton({ handleFunction, testId }) {
 
 AddToFavoriteButton.propTypes = {
   handleFunction: propTypes.func.isRequired,
-  testId: propTypes.string,
-};
-AddToFavoriteButton.defaultProps = {
-  testId: '',
 };
 
 export default AddToFavoriteButton;
