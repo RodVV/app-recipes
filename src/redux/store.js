@@ -5,6 +5,7 @@ import buttonFilter from './slices/buttonFilter';
 import foodSlice from './slices/sliceOfFood';
 import foodDetail from './slices/foodDetailSlice';
 import drinkDetail from './slices/drinkDetailSlice';
+import recipeProgress from './slices/recipeProgressSlice';
 
 const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ const store = configureStore({
     foodSlice,
     foodDetail,
     drinkDetail,
+    recipeProgress,
   },
 });
 
