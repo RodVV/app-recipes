@@ -12,7 +12,8 @@ function DoneRecipeCard({
   type,
   alcoholicOrNot,
   index,
-  date,
+  doneDate,
+  tags,
 }) {
   const [alert, setAlert] = useState('');
 
@@ -34,11 +35,20 @@ function DoneRecipeCard({
           <p data-testid={ `${index}-horizontal-name` }>{ name }</p>
         </Link>
 
+        <p data-testid={ `${index}-${tags[0]}-horizontal-tag` }>
+          { tags[0] }
+        </p>
+
+        <p data-testid={ `${index}-${tags[1]}-horizontal-tag` }>
+          { tags[1] }
+        </p>
+
         <p
           data-testid={ `${index}-horizontal-done-date` }
         >
           Data:
-          { date }
+          { '' }
+          { doneDate }
         </p>
 
         <p data-testid={ `${index}-horizontal-top-text` }>
@@ -81,7 +91,7 @@ function DoneRecipeCard({
         >
           Data:
           { '' }
-          { date }
+          { doneDate }
         </p>
 
         <p data-testid={ `${index}-horizontal-top-text` }>{alcoholicOrNot}</p>
@@ -110,7 +120,8 @@ DoneRecipeCard.propTypes = {
   type: PropTypes.string.isRequired,
   alcoholicOrNot: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
-  date: PropTypes.string.isRequired,
+  doneDate: PropTypes.string.isRequired,
+  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default DoneRecipeCard;

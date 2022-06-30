@@ -64,16 +64,17 @@ function FoodsInProgress() {
       alcoholicOrNot: '',
       name: meals[0].strMeal,
       image: meals[0].strMealThumb,
-      date: dateOfClick,
+      doneDate: dateOfClick,
+      tags: meals[0].strTags,
     };
 
     const localStorageFinished = JSON.parse(
-      localStorage.getItem('FinishedRecipes'),
+      localStorage.getItem('doneRecipes'),
     ) || [];
 
     const addRecipe = [...localStorageFinished, finishedRecipe];
 
-    localStorage.setItem('FinishedRecipes', JSON.stringify(addRecipe));
+    localStorage.setItem('doneRecipes', JSON.stringify(addRecipe));
   };
 
   return meals

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function ButtonFilterDoneRecipes({ setDoneRecipes }) {
-  const getLocalStorage = JSON.parse(localStorage.getItem('FinishedRecipes'));
+  const getLocalStorage = JSON.parse(localStorage.getItem('doneRecipes'));
   function resetFilters() {
     setDoneRecipes(getLocalStorage);
   }

@@ -13,11 +13,12 @@ function DoneRecipes() {
     alcoholicOrNot: '',
     name: '',
     image: '',
-    date: '',
+    doneDate: '',
+    tags: [],
   }]);
 
   useEffect(() => {
-    setDoneRecipes(JSON.parse(localStorage.getItem('FinishedRecipes')) || []);
+    setDoneRecipes(JSON.parse(localStorage.getItem('doneRecipes')) || []);
   }, []);
 
   return (
@@ -32,7 +33,8 @@ function DoneRecipes() {
           id,
           type,
           alcoholicOrNot,
-          date,
+          doneDate,
+          tags,
         }, index) => (
           <DoneRecipeCard
             key={ id }
@@ -44,7 +46,8 @@ function DoneRecipes() {
             alcoholicOrNot={ alcoholicOrNot }
             type={ type }
             index={ index }
-            date={ date }
+            doneDate={ doneDate }
+            tags={ tags }
           />))
       }
     </div>

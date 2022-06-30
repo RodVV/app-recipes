@@ -65,18 +65,19 @@ function FoodsInProgress() {
       alcoholicOrNot: drinks[0].strAlcoholic,
       name: drinks[0].strDrink,
       image: drinks[0].strDrinkThumb,
-      date: dateOfClick,
+      doneDate: dateOfClick,
+      tags: [],
     };
 
     // console.log(today);
 
     const localStorageFinished = JSON.parse(
-      localStorage.getItem('FinishedRecipes'),
+      localStorage.getItem('doneRecipes'),
     ) || [];
 
     const addRecipe = [...localStorageFinished, finishedRecipe];
 
-    localStorage.setItem('FinishedRecipes', JSON.stringify(addRecipe));
+    localStorage.setItem('doneRecipes', JSON.stringify(addRecipe));
   };
 
   return drinks
