@@ -54,6 +54,26 @@ function FoodsInProgress() {
     ));
   };
 
+  const handleFinished = () => {
+    const finishedRecipe = {
+      id: drinks[0].idDrink,
+      type: 'drink',
+      nationality: '',
+      category: drinks[0].strCategory,
+      alcoholicOrNot: drinks[0].strAlcoholic,
+      name: drinks[0].strDrink,
+      image: drinks[0].strDrinkThumb,
+    };
+
+    const localStorageFinished = JSON.parse(
+      localStorage.getItem('FinishedRecipes'),
+    ) || [];
+
+    const addRecipe = [...localStorageFinished, finishedRecipe];
+
+    localStorage.setItem('FinishedRecipes', JSON.stringify(addRecipe));
+  };
+
   return drinks
     ? drinks.map((recipe, index) => (
       <div key={ index }>
@@ -106,6 +126,7 @@ function FoodsInProgress() {
             disabled={ check.length !== drinkIngredients.length }
             type="button"
             data-testid="finish-recipe-btn"
+            onClick={ handleFinished }
           >
             Finish recipe
           </button>
