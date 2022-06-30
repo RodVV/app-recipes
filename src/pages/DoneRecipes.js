@@ -13,6 +13,7 @@ function DoneRecipes() {
     alcoholicOrNot: '',
     name: '',
     image: '',
+    date: '',
   }]);
 
   useEffect(() => {
@@ -23,12 +24,6 @@ function DoneRecipes() {
     <div>
       <Header />
       <ButtonFilterDoneRecipes setDoneRecipes={ setDoneRecipes } />
-      <button
-        type="button"
-        onClick={ console.log(doneRecipes) }
-      >
-        teste
-      </button>
       {
         doneRecipes.map(({ image,
           name,
@@ -37,6 +32,7 @@ function DoneRecipes() {
           id,
           type,
           alcoholicOrNot,
+          date,
         }, index) => (
           <DoneRecipeCard
             key={ id }
@@ -48,9 +44,9 @@ function DoneRecipes() {
             alcoholicOrNot={ alcoholicOrNot }
             type={ type }
             index={ index }
+            date={ date }
           />))
       }
-      <p>DoneRecipes Page</p>
     </div>
   );
 }

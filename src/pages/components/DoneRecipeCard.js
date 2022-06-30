@@ -12,9 +12,9 @@ function DoneRecipeCard({
   type,
   alcoholicOrNot,
   index,
+  date,
 }) {
   const [alert, setAlert] = useState('');
-  console.log(type);
 
   switch (type) {
   case 'food':
@@ -33,6 +33,13 @@ function DoneRecipeCard({
         <Link to={ `/${type}s/${id}` }>
           <p data-testid={ `${index}-horizontal-name` }>{ name }</p>
         </Link>
+
+        <p
+          data-testid={ `${index}-horizontal-done-date` }
+        >
+          Data:
+          { date }
+        </p>
 
         <p data-testid={ `${index}-horizontal-top-text` }>
           { `${nationality} - ${category}` }
@@ -69,6 +76,14 @@ function DoneRecipeCard({
           <p data-testid={ `${index}-horizontal-name` }>{ name }</p>
         </Link>
 
+        <p
+          data-testid={ `${index}-horizontal-done-date` }
+        >
+          Data:
+          { '' }
+          { date }
+        </p>
+
         <p data-testid={ `${index}-horizontal-top-text` }>{alcoholicOrNot}</p>
 
         <input
@@ -95,6 +110,7 @@ DoneRecipeCard.propTypes = {
   type: PropTypes.string.isRequired,
   alcoholicOrNot: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
+  date: PropTypes.string.isRequired,
 };
 
 export default DoneRecipeCard;

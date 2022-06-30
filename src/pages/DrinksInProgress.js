@@ -55,6 +55,8 @@ function FoodsInProgress() {
   };
 
   const handleFinished = () => {
+    const dateOfClick = new Date().toLocaleDateString(); // https://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript
+    // const dateOfClick = `${today.getFullYear()}-${today.getMonth() + 1}-${today}`; // https://phoenixnap.com/kb/how-to-get-the-current-date-and-time-javascript
     const finishedRecipe = {
       id: drinks[0].idDrink,
       type: 'drink',
@@ -63,7 +65,10 @@ function FoodsInProgress() {
       alcoholicOrNot: drinks[0].strAlcoholic,
       name: drinks[0].strDrink,
       image: drinks[0].strDrinkThumb,
+      date: dateOfClick,
     };
+
+    // console.log(today);
 
     const localStorageFinished = JSON.parse(
       localStorage.getItem('FinishedRecipes'),

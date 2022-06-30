@@ -55,6 +55,7 @@ function FoodsInProgress() {
   };
 
   const handleFinished = () => {
+    const dateOfClick = new Date().toLocaleDateString();
     const finishedRecipe = {
       id: meals[0].idMeal,
       type: 'food',
@@ -63,6 +64,7 @@ function FoodsInProgress() {
       alcoholicOrNot: '',
       name: meals[0].strMeal,
       image: meals[0].strMealThumb,
+      date: dateOfClick,
     };
 
     const localStorageFinished = JSON.parse(
