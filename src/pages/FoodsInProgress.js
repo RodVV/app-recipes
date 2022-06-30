@@ -128,7 +128,7 @@ function FoodsInProgress() {
 
         <Link to="/done-recipes">
           <button
-            // disabled={ check.length !== foodIngredients.length }
+            disabled={ check.length !== foodIngredients.length }
             type="button"
             data-testid="finish-recipe-btn"
             onClick={ handleFinished }
