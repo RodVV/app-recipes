@@ -54,6 +54,29 @@ function FoodsInProgress() {
     ));
   };
 
+  const handleFinished = () => {
+    const dateOfClick = new Date().toLocaleDateString();
+    const finishedRecipe = {
+      id: meals[0].idMeal,
+      type: 'food',
+      nationality: meals[0].strArea,
+      category: meals[0].strCategory,
+      alcoholicOrNot: '',
+      name: meals[0].strMeal,
+      image: meals[0].strMealThumb,
+      doneDate: dateOfClick,
+      tags: meals[0].strTags,
+    };
+
+    const localStorageFinished = JSON.parse(
+      localStorage.getItem('doneRecipes'),
+    ) || [];
+
+    const addRecipe = [...localStorageFinished, finishedRecipe];
+
+    localStorage.setItem('doneRecipes', JSON.stringify(addRecipe));
+  };
+
   return meals
     ? meals.map((recipe, index) => (
       <div key={ index }>
@@ -108,6 +131,7 @@ function FoodsInProgress() {
             disabled={ check.length !== foodIngredients.length }
             type="button"
             data-testid="finish-recipe-btn"
+            onClick={ handleFinished }
           >
             Finish recipe
           </button>
