@@ -1,3 +1,13 @@
+Projeto realizado em grupo:
+
+https://github.com/joaomfg
+
+https://github.com/GJMKauer
+
+https://github.com/victorbr988
+
+
+
 Nesse projeto aprendi:
 
 - Utilizar _Redux_ para gerenciar estado
@@ -7,3 +17,5 @@ Nesse projeto aprendi:
 - Utilizar o _React Hook useContext_
 - Utilizar o _React Hook useEffect_
 - Criar Hooks customizados
+
+
